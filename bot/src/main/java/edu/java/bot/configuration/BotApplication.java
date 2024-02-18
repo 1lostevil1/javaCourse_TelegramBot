@@ -13,13 +13,14 @@ public class BotApplication {
 
     @Autowired
     ApplicationConfig applicationConfig;
+
     public static void main(String[] args) {
         SpringApplication.run(BotApplication.class, args);
 
     }
 
     @PostConstruct
-    public void runBot(){
+    public void runBot() {
         TelegramBot bot = new TelegramBot(applicationConfig.telegramToken());
         bot.run();
     }

@@ -5,6 +5,5 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Users.Users;
 
 public interface Command {
-
-    public SendMessage apply(Update update, Users users);
+    SendMessage apply(Update update, Users users);
 }

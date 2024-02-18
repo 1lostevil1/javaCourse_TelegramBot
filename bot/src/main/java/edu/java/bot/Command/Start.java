@@ -6,7 +6,7 @@ import edu.java.bot.Users.User;
 import edu.java.bot.Users.Users;
 import java.util.ArrayList;
 
-public class start implements Command {
+public class Start implements Command {
 
     @Override
     public SendMessage apply(Update update, Users users) {
@@ -14,7 +14,7 @@ public class start implements Command {
         if (users.find(user)) {
             return new SendMessage(update.message().chat().id(), "Вы уже зарегистрированы");
         } else {
-            users.UsersList.add(user);
+            users.usersList.add(user);
             return new SendMessage(update.message().chat().id(), "Добро пожаловать, заюш");
         }
     }

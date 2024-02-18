@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Users {
-    public List<User> UsersList = new ArrayList<>();
+    public List<User> usersList = new ArrayList<>();
 
-    public boolean find(User NewUser){
-    for(var user:UsersList){
-        if (user.id().equals(NewUser.id())) return true;
-    }
-    return false;
+    public boolean find(User newUser) {
+        for (var user : usersList) {
+            if (user.id().equals(newUser.id())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
