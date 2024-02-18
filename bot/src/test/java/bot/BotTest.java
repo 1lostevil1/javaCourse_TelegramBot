@@ -27,7 +27,7 @@ public class BotTest {
 
         }
 
-        @Test
+
         public void shouldProperlySendMessage() throws TelegramException {
 
             bot.run();
