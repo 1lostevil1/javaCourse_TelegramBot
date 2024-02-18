@@ -11,7 +11,11 @@ public class List implements Command {
     public SendMessage apply(Update update, Users users) {
         User user = new User(update.message().chat().username(), update.message().chat().id());
         if (users.find(user.getId())) {
-            return new SendMessage(update.message().chat().id(), users.usersMap.get(user.getId()).UrlstoString() );
+            return new SendMessage(
+                update.message().chat().id(),
+                users.usersMap.get(user.getId()).isEmpty() ? "список ссылок пуст" :
+                    users.usersMap.get(user.getId()).UrlstoString()
+            );
         } else {
             return new SendMessage(update.message().chat().id(), "вы не зарегистрированы");
         }

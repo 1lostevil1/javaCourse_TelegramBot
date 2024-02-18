@@ -12,8 +12,9 @@ public class Untrack implements Command {
     public SendMessage apply(Update update, Users users) {
         User user = new User(update.message().chat().username(), update.message().chat().id());
         if (users.find(user.getId())) {
+            if(users.usersMap.get(user.getId()).isEmpty()) return  new SendMessage(update.message().chat().id(),  "список ссылок пуст");
             users.usersMap.get(user.getId()).state = State.DEL_LINK;
-            return new SendMessage(update.message().chat().id(), "вставьте ссылку на источник");
+            return new SendMessage(update.message().chat().id(),  "вставьте ссылку на источник");
         } else {
             return new SendMessage(update.message().chat().id(), "вы не зарегистрированы");
         }

@@ -18,6 +18,10 @@ public class User {
          state = State.NONE;
      }
 
+     public boolean isEmpty(){
+         return urls.isEmpty();
+     }
+
      public void addUrl(String url){
          urls.add(url);
      }
@@ -31,7 +35,7 @@ public class User {
      }
 
      public String UrlstoString(){
-         return urls.stream().collect(Collectors.joining("\n"));
+         return urls.stream().collect(Collectors.joining("\n\n"));
      }
 
 }
