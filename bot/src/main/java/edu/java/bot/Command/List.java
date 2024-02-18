@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Users.User;
 import edu.java.bot.Users.Users;
-import java.util.ArrayList;
 
 public class List implements Command {
     @Override
@@ -14,7 +13,7 @@ public class List implements Command {
             return new SendMessage(
                 update.message().chat().id(),
                 users.usersMap.get(user.getId()).isEmpty() ? "список ссылок пуст" :
-                    users.usersMap.get(user.getId()).UrlstoString()
+                    users.usersMap.get(user.getId()).urlstoString()
             );
         } else {
             return new SendMessage(update.message().chat().id(), "вы не зарегистрированы");

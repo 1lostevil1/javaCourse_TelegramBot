@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Users.User;
 import edu.java.bot.Users.Users;
-import java.util.ArrayList;
 
 public class Start implements Command {
 

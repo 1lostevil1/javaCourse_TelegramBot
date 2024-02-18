@@ -8,7 +8,7 @@ public class UrlChecker {
 public static boolean check(String url) {
 
     try {
-        URL is_link = new URL(url);
+        URL link = new URL(url);
         return true;
     } catch (MalformedURLException e) {
         return false;
