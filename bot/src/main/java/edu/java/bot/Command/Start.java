@@ -10,11 +10,11 @@ public class Start implements Command {
 
     @Override
     public SendMessage apply(Update update, Users users) {
-        User user = new User(update.message().chat().username(), update.message().chat().id(), new ArrayList<>());
-        if (users.find(user)) {
+        User user = new User(update.message().chat().username(), update.message().chat().id());
+        if (users.find(user.getId())) {
             return new SendMessage(update.message().chat().id(), "Вы уже зарегистрированы");
         } else {
-            users.usersList.add(user);
+            users.usersMap.put(user.getId(), user);
             return new SendMessage(update.message().chat().id(), "Добро пожаловать, заюш");
         }
     }

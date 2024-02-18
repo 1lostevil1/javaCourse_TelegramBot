@@ -1,17 +1,13 @@
 package edu.java.bot.Users;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Users {
-    public List<User> usersList = new ArrayList<>();
+    public Map<Long, User> usersMap = new HashMap<>();
 
-    public boolean find(User newUser) {
-        for (var user : usersList) {
-            if (user.id().equals(newUser.id())) {
-                return true;
-            }
-        }
+    public boolean find(Long id) {
+        if (usersMap.containsKey(id)) return true;
         return false;
     }
 }
