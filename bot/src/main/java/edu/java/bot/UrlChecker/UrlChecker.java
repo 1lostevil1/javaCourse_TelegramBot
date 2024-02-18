@@ -5,6 +5,9 @@ import java.net.URL;
 
 public class UrlChecker {
 
+    private UrlChecker(){
+    }
+
 public static boolean check(String url) {
 
     try {

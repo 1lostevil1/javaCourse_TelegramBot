@@ -12,8 +12,8 @@ public class List implements Command {
         if (users.find(user.getId())) {
             return new SendMessage(
                 update.message().chat().id(),
-                users.usersMap.get(user.getId()).isEmpty() ? "список ссылок пуст" :
-                    users.usersMap.get(user.getId()).urlstoString()
+                users.usersMap.get(user.getId()).isEmpty() ? "список ссылок пуст"
+                    : users.usersMap.get(user.getId()).urlstoString()
             );
         } else {
             return new SendMessage(update.message().chat().id(), "вы не зарегистрированы");
