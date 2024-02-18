@@ -46,8 +46,6 @@ public class CommandHandler {
     public SendMessage executeCommand(Update update, Users users) {
         Long id = update.message().chat().id();
         String message = update.message().text();
-        System.out.print(update.message().chat().username());
-        System.out.print(":  " + message + '\n');
         Command command = commands.get(message);
         if (command != null) {
             return command.apply(update, users);
