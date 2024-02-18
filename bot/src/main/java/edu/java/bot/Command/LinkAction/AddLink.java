@@ -11,9 +11,12 @@ public class AddLink implements Command {
     @Override
     public SendMessage apply(Update update, Users users) {
         Long id = update.message().chat().id();
+        users.usersMap.get(id).state = State.NONE;
         if (UrlChecker.check(update.message().text())) {
+            if (users.usersMap.get(id).findUrl(update.message().text())) {
+                return new SendMessage(id, "такая ссылка уже отслеживается");
+            }
             users.usersMap.get(id).addUrl(update.message().text());
-            users.usersMap.get(id).state = State.NONE;
             return new SendMessage(id, "ссылка отслеживается");
         }
         return new SendMessage(id, "выражение не является ссылкой");

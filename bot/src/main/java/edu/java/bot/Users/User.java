@@ -17,6 +17,10 @@ public class User {
         state = State.NONE;
     }
 
+    public boolean findUrl(String url){
+        return urls.contains(url);
+    }
+
     public boolean isEmpty() {
         return urls.isEmpty();
     }
