@@ -11,8 +11,11 @@ public class DelLink implements Command {
     @Override
     public SendMessage apply(Update update, Users users) {
         Long id = update.message().chat().id();
+        users.usersMap.get(id).state = State.NONE;
         if (UrlChecker.check(update.message().text())) {
-            users.usersMap.get(id).state = State.NONE;
+            if (!users.usersMap.get(id).findUrl(update.message().text())) {
+                return new SendMessage(id, "такая ссылка не отслеживалась");
+            }
             users.usersMap.get(id).removeUrl(update.message().text());
             return new SendMessage(id, "ссылка больше не отслеживается");
         }
