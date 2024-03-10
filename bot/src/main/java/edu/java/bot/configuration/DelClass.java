@@ -1,5 +1,5 @@
 package edu.java.bot.configuration;
 
-public class delClass {
+public class DelClass {
     int x;
 }
