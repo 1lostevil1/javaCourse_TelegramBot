@@ -31,6 +31,7 @@ public class MigrationTest extends IntegrationTest {
 
     @Test
     public void connectionTableTest() throws SQLException {
+
         try (Connection connection = POSTGRES.createConnection("")) {
             PreparedStatement sqlQuery = connection.prepareStatement("SELECT * FROM chat_link");
             String firstColumn = sqlQuery.executeQuery().getMetaData().getColumnName(1);
