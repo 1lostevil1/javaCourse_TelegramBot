@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SpringBootApplication
 @EnableConfigurationProperties(ApplicationConfig.class)
 public class ScrapperApplication {
+    int x;
     public static void main(String[] args) {
         SpringApplication.run(ScrapperApplication.class, args);
     }
