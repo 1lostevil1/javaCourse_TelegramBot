@@ -15,8 +15,7 @@ import reactor.core.publisher.Mono;
 
 @SuppressWarnings("MultipleStringLiterals")
 public class ScrapperClient {
-    @Autowired
-    @Qualifier("ScrapperClient")
+
     WebClient webClient;
 
     public ScrapperClient(WebClient webClient) {

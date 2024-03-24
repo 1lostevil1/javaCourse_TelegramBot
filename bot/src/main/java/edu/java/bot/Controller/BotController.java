@@ -40,7 +40,6 @@ public class BotController {
             }
         )
     })
-
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public String sendUpdate(@RequestBody @Valid LinkUpdate linkUpdate) {
