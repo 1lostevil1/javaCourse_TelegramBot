@@ -32,6 +32,7 @@ public abstract class IntegrationTest {
     }
 
     private static void runMigrations(JdbcDatabaseContainer<?> c) {
+
         Path pathToChangeLog = new File(".")
             .toPath()
             .toAbsolutePath()
