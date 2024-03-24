@@ -1,5 +1,6 @@
 app:
   telegram-token: 6863584041:AAEa0ZBYr8SKB0_X8ckJvnT7s5qJqjXPLUE
+  base-url-scrapper: "https://localhost:8090"
 
 spring:
   application:
