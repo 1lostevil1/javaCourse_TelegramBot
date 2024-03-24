@@ -12,6 +12,7 @@ services:
       - postgresql:/var/lib/postgresql/data
     networks:
       - backend
+
   migration:
     image: liquibase/liquibase:4.25
     container_name: liquibase
