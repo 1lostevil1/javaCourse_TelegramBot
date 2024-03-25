@@ -27,4 +27,5 @@ public class ClientConfiguration {
             .build();
         return new StackOverflowClient(stackOverflowClient);
     }
+
 }
