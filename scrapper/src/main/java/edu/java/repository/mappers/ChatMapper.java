@@ -1,6 +1,6 @@
 package edu.java.repository.mappers;
 
-import edu.java.domain.DTOChat;
+import edu.java.DTOModels.DTOjdbc.DTOChat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneOffset;

@@ -1,6 +1,5 @@
 package edu.java.clients;
 
-import edu.java.dto.Question;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,18 +13,18 @@ public class StackOverflowClient {
         this.webClient = webClient;
     }
 
-    public Question getQuestion(long ids) {
-        return webClient.get().uri("/questions/{ids}?site=stackoverflow", ids)
-            .retrieve().onStatus(
-                HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Link is not valid"
-                ))
-            ).onStatus(
-                HttpStatusCode::is5xxServerError,
-                error -> Mono.error(new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"
-                ))
-            ).bodyToMono(Question.class).block();
-    }
+//    public Question getQuestion(long ids) {
+//        return webClient.get().uri("/questions/{ids}?site=stackoverflow", ids)
+//            .retrieve().onStatus(
+//                HttpStatusCode::is4xxClientError,
+//                error -> Mono.error(new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "Link is not valid"
+//                ))
+//            ).onStatus(
+//                HttpStatusCode::is5xxServerError,
+//                error -> Mono.error(new ResponseStatusException(
+//                    HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"
+//                ))
+//            ).bodyToMono(Question.class).block();
+//    }
 }

@@ -1,8 +1,8 @@
 package edu.java.services.jdbc;
 
-import edu.java.domain.DTOChat;
-import edu.java.domain.DTOChatLink;
-import edu.java.exceptions.AlreadyExistException;
+import edu.java.DTOModels.DTOjdbc.DTOChat;
+import edu.java.DTOModels.DTOjdbc.DTOChatLink;
+import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.exceptions.NotExistException;
 import edu.java.exceptions.RepeatedRegistrationException;
 import edu.java.repository.impl.ChatLinkRepoImpl;
@@ -21,10 +21,10 @@ public class jdbcChatService implements ChatService {
     private ChatRepoImpl chatRepo;
 
     @Autowired
-    private LinkRepoImpl LinkRepo;
+    private LinkRepoImpl linkRepo;
 
     @Autowired
-    private ChatLinkRepoImpl ChatLinkRepo;
+    private ChatLinkRepoImpl chatLinkRepo;
     @Override
     public void register(long tgChatId, String UserName) throws RepeatedRegistrationException {
         if(isChatExists(tgChatId)){
@@ -38,8 +38,15 @@ public class jdbcChatService implements ChatService {
         if(!isChatExists(tgChatId)){
             throw new NotExistException("Чат не существует");
         }
-        List<DTOChatLink> links = ChatLinkRepo.findByChatId(tgChatId);
-
+        List<DTOChatLink> links = chatLinkRepo.findByChatId(tgChatId);
+        for(DTOChatLink link : links ) {
+            List<DTOChatLink> chats = chatLinkRepo.findByLinkId(link.linkId());
+            chatLinkRepo.remove(new DTOChatLink(tgChatId, link.linkId()));
+            if (chats.size() == 1) {
+                linkRepo.remove(new DTOLink(link.linkId(), null, null, null, null, null));
+            }
+        }
+        chatRepo.remove(new DTOChat(tgChatId, null, null));
     }
 
     private boolean isChatExists(long id) {

@@ -1,6 +1,5 @@
 package edu.java.clients;
 
-import edu.java.dto.Repository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,18 +13,18 @@ public class GitHubClient {
         this.webClient = webClient;
     }
 
-    public Repository getRep(String name, String reposName) {
-        return webClient.get().uri("/repos/{name}/{reposName}", name, reposName)
-            .retrieve().onStatus(
-                HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Link is not valid"
-                ))
-            ).onStatus(
-                HttpStatusCode::is5xxServerError,
-                error -> Mono.error(new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"
-                ))
-            ).bodyToMono(Repository.class).block();
-    }
+//    public Repository getRep(String name, String reposName) {
+//        return webClient.get().uri("/repos/{name}/{reposName}", name, reposName)
+//            .retrieve().onStatus(
+//                HttpStatusCode::is4xxClientError,
+//                error -> Mono.error(new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND, "Link is not valid"
+//                ))
+//            ).onStatus(
+//                HttpStatusCode::is5xxServerError,
+//                error -> Mono.error(new ResponseStatusException(
+//                    HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"
+//                ))
+//            ).bodyToMono(Repository.class).block();
+//    }
 }

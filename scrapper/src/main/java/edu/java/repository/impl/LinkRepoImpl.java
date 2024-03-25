@@ -1,6 +1,6 @@
 package edu.java.repository.impl;
 
-import edu.java.domain.DTOLink;
+import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.interfaces.LinkRepo;
 import edu.java.repository.mappers.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package edu.java.repository.impl;
 
-import edu.java.domain.DTOChatLink;
+import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.repository.interfaces.ChatLinkRepo;
 import edu.java.repository.mappers.ChatLinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;

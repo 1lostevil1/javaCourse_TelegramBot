@@ -1,6 +1,6 @@
 package edu.java.repository.interfaces;
 
-import edu.java.domain.DTOLink;
+import edu.java.DTOModels.DTOjdbc.DTOLink;
 import java.time.OffsetDateTime;
 import java.util.List;
 

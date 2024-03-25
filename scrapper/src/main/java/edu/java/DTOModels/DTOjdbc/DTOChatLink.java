@@ -1,4 +1,4 @@
-package edu.java.domain;
+package edu.java.DTOModels.DTOjdbc;
 
 public record DTOChatLink(
         Long chatId,

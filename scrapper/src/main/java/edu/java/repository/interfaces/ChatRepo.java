@@ -1,6 +1,6 @@
 package edu.java.repository.interfaces;
 
-import edu.java.domain.DTOChat;
+import edu.java.DTOModels.DTOjdbc.DTOChat;
 import java.util.List;
 
 public interface ChatRepo {

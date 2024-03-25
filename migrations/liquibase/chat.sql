@@ -5,5 +5,5 @@ create table chat
 
     created_at timestamp with time zone not null,
 
-    primary key (chat_id),
+    primary key (chat_id)
 )

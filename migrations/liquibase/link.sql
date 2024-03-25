@@ -6,6 +6,6 @@ create table link
     check_at  timestamp with time zone not null,
     link_type text                     not null,
     data      text                     not null,
-    primary key (link_id)
+    primary key (link_id),
     unique (url)
 )

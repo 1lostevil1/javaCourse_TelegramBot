@@ -2,8 +2,7 @@ package edu.java.repository.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneOffset;
-import edu.java.domain.DTOChat;
-import edu.java.domain.DTOLink;
+import edu.java.DTOModels.DTOjdbc.DTOLink;
 import org.springframework.jdbc.core.RowMapper;
 public class LinkMapper implements RowMapper<DTOLink>{
     @Override
