@@ -29,14 +29,14 @@ public class ChatLinkRepoImpl implements ChatLinkRepo {
     @Override
     @Transactional
     public List<DTOChatLink> findAll() {
-        return jdbcClient.sql("SELECT * FROM chat_link")
+        return jdbcClient.sql("SELECT * FROM chat_to_link")
             .query(new ChatLinkMapper()).list();
     }
 
     @Override
     @Transactional
     public List<DTOChatLink> findByChatId(long chatId) {
-        return jdbcClient.sql("SELECT * FROM chat_link WHERE chat_id=?")
+        return jdbcClient.sql("SELECT * FROM chat_to_link WHERE chat_id=?")
             .param(chatId)
             .query(new ChatLinkMapper()).list();
     }
@@ -44,7 +44,7 @@ public class ChatLinkRepoImpl implements ChatLinkRepo {
     @Override
     @Transactional
     public List<DTOChatLink> findByLinkId(long linkId) {
-        return jdbcClient.sql("SELECT * FROM chat_link WHERE link_id=?")
+        return jdbcClient.sql("SELECT * FROM chat_to_link WHERE link_id=?")
             .param(linkId)
             .query(new ChatLinkMapper()).list();
     }
