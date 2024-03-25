@@ -10,8 +10,18 @@ app:
     force-check-delay: 10s
 
 spring:
+  datasource:
+    driver_class_name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/scrapper
   application:
     name: scrapper
+  liquibase:
+    change-log: ../../../../migrations/master.xml
+    enabled: false
+    autoconfigure:
+      exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 
 
