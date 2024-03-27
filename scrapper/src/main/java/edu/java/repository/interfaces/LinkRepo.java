@@ -18,4 +18,6 @@ public interface LinkRepo {
     void updateCheckTime(long linkId, OffsetDateTime time);
 
     List<DTOLink> findOldLinksToCheck(OffsetDateTime time);
+
+    public DTOLink getLink(long id);
 }

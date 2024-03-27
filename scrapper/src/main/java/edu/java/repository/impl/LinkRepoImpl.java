@@ -18,20 +18,16 @@ public class LinkRepoImpl implements LinkRepo {
 
     @Override
     @Transactional
-    public void add(DTOLink chat) {
-        jdbcClient.sql(
-            "INSERT INTO link VALUES(DEFAULT, " +
-                "link.url(), "
-                + "link.updateAt(), "
-                + "link.checkAt(), "
-                + "link.linkType(), "
-                + "link.data())").update();
+    public void add(DTOLink link) {
+        jdbcClient.sql("INSERT INTO link VALUES(DEFAULT, ?, ?, ?, ?, ?)")
+            .params(link.url(), link.updateAt(), link.checkAt(), link.linkType(), link.data())
+            .update();
     }
 
     @Override
     @Transactional
     public void remove(DTOLink link) {
-        jdbcClient.sql("DELETE FROM link WHERE link_id=link.linkId()").update();
+        jdbcClient.sql("DELETE FROM link WHERE link_id=?").param(link.linkId()).update();
     }
 
     @Override
@@ -68,5 +64,10 @@ public class LinkRepoImpl implements LinkRepo {
     public List<DTOLink> findOldLinksToCheck(OffsetDateTime time) {
         return jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(5))
             .query(new LinkMapper()).list();
+    }
+    @Override
+    @Transactional
+    public DTOLink getLink(long id){
+        return jdbcClient.sql("SELECT FROM link WHERE link_id=? ").param(id).query(new LinkMapper()).single();
     }
 }

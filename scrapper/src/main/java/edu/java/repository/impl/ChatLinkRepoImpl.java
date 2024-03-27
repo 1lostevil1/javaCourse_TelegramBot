@@ -16,27 +16,36 @@ public class ChatLinkRepoImpl implements ChatLinkRepo {
     @Override
     @Transactional
     public void add(DTOChatLink sub) {
-        jdbcClient.sql("INSERT INTO chat_to_link VALUES(sub.chatId(), sub.linkId()?)")
+        jdbcClient.sql("INSERT INTO chat_link VALUES(?, ?)")
+            .params(
+                sub.chatId(),
+                sub.linkId()
+            )
             .update();
     }
 
     @Override
     @Transactional
     public void remove(DTOChatLink sub) {
-        jdbcClient.sql("DELETE FROM chat_to_link WHERE chat_id=sub.chatId() AND linl_id= sub.linkId()").update();
+        jdbcClient.sql("DELETE FROM chat_link WHERE chat_id=? AND link_id=?")
+            .params(
+                sub.chatId(),
+                sub.linkId()
+            )
+            .update();
     }
 
     @Override
     @Transactional
     public List<DTOChatLink> findAll() {
-        return jdbcClient.sql("SELECT * FROM chat_to_link")
+        return jdbcClient.sql("SELECT * FROM chat_link")
             .query(new ChatLinkMapper()).list();
     }
 
     @Override
     @Transactional
     public List<DTOChatLink> findByChatId(long chatId) {
-        return jdbcClient.sql("SELECT * FROM chat_to_link WHERE chat_id=?")
+        return jdbcClient.sql("SELECT * FROM chat_link WHERE chat_id=?")
             .param(chatId)
             .query(new ChatLinkMapper()).list();
     }
@@ -44,7 +53,7 @@ public class ChatLinkRepoImpl implements ChatLinkRepo {
     @Override
     @Transactional
     public List<DTOChatLink> findByLinkId(long linkId) {
-        return jdbcClient.sql("SELECT * FROM chat_to_link WHERE link_id=?")
+        return jdbcClient.sql("SELECT * FROM chat_link WHERE link_id=?")
             .param(linkId)
             .query(new ChatLinkMapper()).list();
     }
