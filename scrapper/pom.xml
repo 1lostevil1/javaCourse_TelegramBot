@@ -8,6 +8,9 @@
         <version>${revision}</version>
     </parent>
     <artifactId>scrapper</artifactId>
+
+
+    
     <version>${revision}</version>
     <dependencies>
         <!-- Web -->
