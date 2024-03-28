@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableScheduling
-@SuppressWarnings({"MultipleStringLiterals","MagicNumber"})
+@SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 public class LinkUpdaterScheduler {
 
     @Autowired
@@ -53,7 +53,7 @@ public class LinkUpdaterScheduler {
                 botClient.sendUpdate(
                     link.linkId(),
                     link.url(),
-                   description,
+                    description,
                     linkUpdater.allChatIdsByLinkId(link.linkId())
 
                 );

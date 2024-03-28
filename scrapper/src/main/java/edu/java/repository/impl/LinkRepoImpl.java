@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@SuppressWarnings({"MultipleStringLiterals","MagicNumber"})
+@SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 @Repository
 public class LinkRepoImpl implements LinkRepo {
 
