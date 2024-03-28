@@ -51,4 +51,10 @@ public class BotController {
         return "Обновление отправлено!";
     }
 
+    @GetMapping
+    public String getUpdate(@RequestBody LinkUpdate linkUpdate) {
+        LOGGER.info(linkUpdate);
+        return "Обновление получено!";
+    }
+
 }

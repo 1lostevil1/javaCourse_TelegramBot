@@ -50,13 +50,13 @@ public class LinkUpdaterScheduler {
             }
             if (!description.isEmpty()) {
                 System.out.print(description);
-//                botClient.sendUpdate(
-//                    link.linkId(),
-//                    link.url(),
-//                    description,
-//                    linkUpdater.allChatIdsByLinkId(link.linkId())
-//
-//                );
+                botClient.sendUpdate(
+                    link.linkId(),
+                    link.url(),
+                   description,
+                    linkUpdater.allChatIdsByLinkId(link.linkId())
+
+                );
 
             }
         }
@@ -67,7 +67,7 @@ public class LinkUpdaterScheduler {
         DTOGithub gitHub = gitHubHandler.getInfo(link.url());
         try {
             GitHubData gitHubData = Json.mapper().readValue(link.data(), GitHubData.class);
-            if (gitHub.repository().pushedTime().isAfter(link.updateAt())) {
+            if (gitHub.repository().pushedTime().plusHours(3).isAfter(link.updateAt())) {
                 linkUpdater.update(link.linkId(), gitHub.repository().pushedTime(), gitHubHandler.getData(gitHub));
                 description.append("В репозитории ").append(gitHub.repository().repoName()).append(" по ссылке ")
                     .append(link.url());
