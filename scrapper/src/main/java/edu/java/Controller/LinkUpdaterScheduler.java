@@ -65,35 +65,32 @@ public class LinkUpdaterScheduler {
     private String gitHubUpdate(DTOLink link) {
         StringBuilder description = new StringBuilder();
         DTOGithub gitHub = gitHubHandler.getInfo(link.url());
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
-        System.out.println(link.updateAt());
-        OffsetDateTime time = gitHub.repository().pushedTime();
-        System.out.println(time);
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
         try {
             GitHubData gitHubData = Json.mapper().readValue(link.data(), GitHubData.class);
             if (gitHub.repository().pushedTime().isAfter(link.updateAt())) {
                 linkUpdater.update(link.linkId(), gitHub.repository().pushedTime(), gitHubHandler.getData(gitHub));
-                description.append("Обновление в репозитории ").append(gitHub.repository().repoName())
-                    .append(" по ссылке ")
-                    .append(link.url()).append('\n');
-            }
-
-            if (gitHubData.branches().length < gitHub.branches().length) {
-                description.append(" Была добавлена ветка ").append(gitHub.branches()[0].name()).append(".\n ");
-            } else if (gitHubData.branches().length > gitHub.branches().length) {
-                description.append(" Была удалена ветка ").append(gitHubData.branches()[0].name()).append(".\n ");
-            } else if (Arrays.toString(gitHub.branches()).hashCode() != gitHubData.branchesHash()) {
-                description.append(" в ветку "+ gitHubData.branches()[0].name()+ "был добавлен новый коммит\n. ");
-            }
-
-            if (gitHubData.pullRequests().length < gitHub.pullRequests().length) {
-                description.append(" был открыт пулл реквест №").append(gitHub.pullRequests()[0].number())
-                    .append(" c заголовком ").append(gitHub.pullRequests()[0].title()).append(".\n ");
-            } else if (gitHubData.pullRequests().length > gitHub.pullRequests().length) {
-                description.append(" был закрыт пулл реквест. ").append(gitHubData.pullRequests()[0].title())
-                    .append(".\n ");
-                ;
+                description.append("В репозитории ").append(gitHub.repository().repoName()).append(" по ссылке ")
+                    .append(link.url());
+                String begDescription = description.toString();
+                if (gitHubData.numberOfBranches() < gitHub.branches().length) {
+                    description.append(" была добавлена ветка ").append(gitHub.branches()[0].name()).append(". ");
+                } else if (gitHubData.numberOfBranches() > gitHub.branches().length) {
+                    description.append(" была удалена ветка. ");
+                } else if (Arrays.toString(gitHub.branches()).hashCode() != gitHubData.branchesHash()) {
+                    description.append(" был добавлен новый коммит. ");
+                }
+                if (gitHubData.numberOfPullRequests() < gitHub.pullRequests().length) {
+                    description.append(" был открыт пулл реквест №").append(gitHub.pullRequests()[0].number())
+                        .append(" c заголовком ").append(gitHub.pullRequests()[0].title()).append(". ");
+                } else if (gitHubData.numberOfPullRequests() > gitHub.pullRequests().length) {
+                    description.append(" был закрыт пулл реквест. ");
+                } else if (Arrays.toString(gitHub.pullRequests()).hashCode() != gitHubData.pullRequestsHash()) {
+                    description.append(" был добавлен новый коммит. ");
+                }
+                if (description.toString().equals(begDescription)) {
+                    description.append(" есть обновление. ");
+                }
+                description.append("Скорее переходите по ссылке!");
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

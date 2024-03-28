@@ -19,8 +19,8 @@ public class GitHandler implements Handler<DTOGithub>{
         try {
             return Json.mapper().writeValueAsString(
                 new GitHubData(
-                    dto.branches(),
-                    dto.pullRequests(),
+                    dto.branches().length,
+                    dto.pullRequests().length,
                     Arrays.toString(dto.branches()).hashCode(),
                     Arrays.toString(dto.pullRequests()).hashCode()
                 )
