@@ -25,7 +25,7 @@ public class MigrationTest extends IntegrationTest {
             String thirdColumn = sqlQuery.executeQuery().getMetaData().getColumnName(3);
             assertThat(firstColumn).isEqualTo("link_id");
             assertThat(secondColumn).isEqualTo("url");
-            assertThat(thirdColumn).isEqualTo("updated_at");
+            assertThat(thirdColumn).isEqualTo("update_at");
         }
     }
 
