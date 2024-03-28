@@ -9,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SofHandler implements Handler<StackOverflow>{
+public class SofHandler implements Handler<StackOverflow> {
 
     @Autowired
-    private  StackOverflowClient stackOverflowClient;
+    private StackOverflowClient stackOverflowClient;
+
     @Override
     public String getData(StackOverflow dto) {
         try {

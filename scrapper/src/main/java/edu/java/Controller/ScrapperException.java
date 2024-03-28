@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@SuppressWarnings("MultipleStringLiterals")
 public class ScrapperException {
     @ExceptionHandler(AlreadyExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

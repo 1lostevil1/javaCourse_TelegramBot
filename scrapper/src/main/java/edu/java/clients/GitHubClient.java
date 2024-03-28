@@ -7,7 +7,7 @@ import edu.java.Github.Repository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
+@SuppressWarnings("MultipleStringLiterals")
 public class GitHubClient {
     private final WebClient webClient;
 

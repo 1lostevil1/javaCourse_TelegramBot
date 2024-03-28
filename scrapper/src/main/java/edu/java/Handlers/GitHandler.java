@@ -5,15 +5,16 @@ import edu.java.DTOModels.Github.DTOGithub;
 import edu.java.Github.GitHubData;
 import edu.java.clients.GitHubClient;
 import io.swagger.v3.core.util.Json;
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Arrays;
 
 @Component
-public class GitHandler implements Handler<DTOGithub>{
+public class GitHandler implements Handler<DTOGithub> {
 
     @Autowired
     private GitHubClient gitHubClient;
+
     @Override
     public String getData(DTOGithub dto) {
         try {

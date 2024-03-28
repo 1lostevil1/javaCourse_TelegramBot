@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-@SuppressWarnings("MagicNumber")
+
+@SuppressWarnings("MultipleStringLiterals")
 @Repository
 public class LinkRepoImpl implements LinkRepo {
 
@@ -62,8 +63,6 @@ public class LinkRepoImpl implements LinkRepo {
     @Override
     @Transactional
     public List<DTOLink> findOldLinksToCheck(OffsetDateTime time) {
-        System.out.println(jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(3))
-            .query(new LinkMapper()).list());
         return jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(3))
             .query(new LinkMapper()).list();
 

@@ -19,5 +19,5 @@ public interface LinkRepo {
 
     List<DTOLink> findOldLinksToCheck(OffsetDateTime time);
 
-    public DTOLink getLink(long id);
+     DTOLink getLink(long id);
 }

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings("MultipleStringLiterals")
 public class JdbcLinkService implements LinkService {
 
     @Autowired

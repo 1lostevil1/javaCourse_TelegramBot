@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableScheduling
+@SuppressWarnings("MultipleStringLiterals")
 public class LinkUpdaterScheduler {
 
     @Autowired
@@ -49,7 +50,6 @@ public class LinkUpdaterScheduler {
                 }
             }
             if (!description.isEmpty()) {
-                System.out.print(description);
                 botClient.sendUpdate(
                     link.linkId(),
                     link.url(),
