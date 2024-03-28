@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.jboss.logging.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +46,7 @@ public class BotController {
         )
     })
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public String sendUpdate(@RequestBody @Valid LinkUpdate linkUpdate) {
-
+    public String sendUpdate(@RequestBody LinkUpdate linkUpdate) {
         LOGGER.info(linkUpdate);
         return "Обновление отправлено!";
     }

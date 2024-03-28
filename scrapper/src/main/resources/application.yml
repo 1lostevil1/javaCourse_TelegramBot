@@ -6,8 +6,8 @@ app:
 
   scheduler:
     enable: true
-    interval: 10s
-    force-check-delay: 10s
+    interval: 15s
+    force-check-delay: 15s
 
 spring:
   datasource:

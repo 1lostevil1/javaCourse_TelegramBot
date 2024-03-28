@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class LinkRepoImpl implements LinkRepo {
@@ -62,8 +63,11 @@ public class LinkRepoImpl implements LinkRepo {
     @Override
     @Transactional
     public List<DTOLink> findOldLinksToCheck(OffsetDateTime time) {
-        return jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(5))
+        System.out.println(jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(1))
+            .query(new LinkMapper()).list());
+        return jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(1))
             .query(new LinkMapper()).list();
+
     }
     @Override
     @Transactional

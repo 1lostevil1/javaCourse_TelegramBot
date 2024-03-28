@@ -3,14 +3,12 @@ package edu.java.services.jdbc;
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.impl.ChatLinkRepoImpl;
-import edu.java.repository.impl.ChatRepoImpl;
 import edu.java.repository.impl.LinkRepoImpl;
 import edu.java.services.interfaces.LinkUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class jdbcLinkUpdater implements LinkUpdater {

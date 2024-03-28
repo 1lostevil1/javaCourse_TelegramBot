@@ -49,12 +49,15 @@ public class LinkUpdaterScheduler {
                 }
             }
             if (!description.isEmpty()) {
-                botClient.sendUpdate(
-                    link.linkId(),
-                    link.url(),
-                    description,
-                    linkUpdater.allChatIdsByLinkId(link.linkId())
-                );
+                System.out.print(description);
+//                botClient.sendUpdate(
+//                    link.linkId(),
+//                    link.url(),
+//                    description,
+//                    linkUpdater.allChatIdsByLinkId(link.linkId())
+//
+//                );
+
             }
         }
     }
@@ -62,6 +65,11 @@ public class LinkUpdaterScheduler {
     private String gitHubUpdate(DTOLink link) {
         StringBuilder description = new StringBuilder();
         DTOGithub gitHub = gitHubHandler.getInfo(link.url());
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
+        System.out.println(link.updateAt());
+        OffsetDateTime time = gitHub.repository().pushedTime();
+        System.out.println(time);
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
         try {
             GitHubData gitHubData = Json.mapper().readValue(link.data(), GitHubData.class);
             if (gitHub.repository().pushedTime().isAfter(link.updateAt())) {
@@ -70,13 +78,15 @@ public class LinkUpdaterScheduler {
                     .append(" по ссылке ")
                     .append(link.url()).append('\n');
             }
+
             if (gitHubData.branches().length < gitHub.branches().length) {
                 description.append(" Была добавлена ветка ").append(gitHub.branches()[0].name()).append(".\n ");
             } else if (gitHubData.branches().length > gitHub.branches().length) {
                 description.append(" Была удалена ветка ").append(gitHubData.branches()[0].name()).append(".\n ");
             } else if (Arrays.toString(gitHub.branches()).hashCode() != gitHubData.branchesHash()) {
-                description.append(" Был добавлен новый коммит. \n");
+                description.append(" в ветку "+ gitHubData.branches()[0].name()+ "был добавлен новый коммит\n. ");
             }
+
             if (gitHubData.pullRequests().length < gitHub.pullRequests().length) {
                 description.append(" был открыт пулл реквест №").append(gitHub.pullRequests()[0].number())
                     .append(" c заголовком ").append(gitHub.pullRequests()[0].title()).append(".\n ");
@@ -84,8 +94,6 @@ public class LinkUpdaterScheduler {
                 description.append(" был закрыт пулл реквест. ").append(gitHubData.pullRequests()[0].title())
                     .append(".\n ");
                 ;
-            } else if (Arrays.toString(gitHub.pullRequests()).hashCode() != gitHubData.pullRequestsHash()) {
-                description.append(" был добавлен новый коммит. ");
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
