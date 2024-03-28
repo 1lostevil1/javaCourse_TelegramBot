@@ -9,6 +9,10 @@
     </parent>
 
     <artifactId>models</artifactId>
+
+
+
+    
     <version>${revision}</version>
 
     <properties>
