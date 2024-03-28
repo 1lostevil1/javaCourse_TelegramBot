@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @EnableScheduling
-@SuppressWarnings("MultipleStringLiterals")
+@SuppressWarnings({"MultipleStringLiterals","MagicNumber"})
 public class LinkUpdaterScheduler {
 
     @Autowired
