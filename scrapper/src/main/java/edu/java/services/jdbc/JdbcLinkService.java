@@ -13,16 +13,16 @@ import edu.java.repository.impl.ChatLinkRepoImpl;
 import edu.java.repository.impl.ChatRepoImpl;
 import edu.java.repository.impl.LinkRepoImpl;
 import edu.java.services.interfaces.LinkService;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class jdbcLinkService implements LinkService {
+public class JdbcLinkService implements LinkService {
 
     @Autowired
     private ChatRepoImpl chatRepository;

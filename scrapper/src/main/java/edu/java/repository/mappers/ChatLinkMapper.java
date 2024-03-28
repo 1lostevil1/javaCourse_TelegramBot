@@ -1,9 +1,9 @@
 package edu.java.repository.mappers;
 
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
-import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
 
 public class ChatLinkMapper implements RowMapper<DTOChatLink> {
     @Override

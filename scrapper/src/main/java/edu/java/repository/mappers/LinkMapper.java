@@ -1,10 +1,12 @@
 package edu.java.repository.mappers;
+
+import edu.java.DTOModels.DTOjdbc.DTOLink;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneOffset;
-import edu.java.DTOModels.DTOjdbc.DTOLink;
 import org.springframework.jdbc.core.RowMapper;
-public class LinkMapper implements RowMapper<DTOLink>{
+
+public class LinkMapper implements RowMapper<DTOLink> {
     @Override
     public DTOLink mapRow(ResultSet rs, int rowNum) throws SQLException {
         try {

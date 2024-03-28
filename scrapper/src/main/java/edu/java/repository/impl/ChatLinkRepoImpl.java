@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 @Repository
+@SuppressWarnings("MagicNumber")
 public class ChatLinkRepoImpl implements ChatLinkRepo {
 
     @Autowired

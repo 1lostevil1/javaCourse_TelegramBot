@@ -5,13 +5,13 @@ import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.impl.ChatLinkRepoImpl;
 import edu.java.repository.impl.LinkRepoImpl;
 import edu.java.services.interfaces.LinkUpdater;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
-public class jdbcLinkUpdater implements LinkUpdater {
+public class JdbcLinkUpdater implements LinkUpdater {
 
     @Autowired
     private LinkRepoImpl linkRepository;

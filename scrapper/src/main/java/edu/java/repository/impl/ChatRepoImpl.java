@@ -1,20 +1,21 @@
 package edu.java.repository.impl;
 
 import edu.java.DTOModels.DTOjdbc.DTOChat;
-import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.interfaces.ChatRepo;
 import edu.java.repository.mappers.ChatMapper;
-import edu.java.repository.mappers.LinkMapper;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
 @Repository
+@SuppressWarnings("MagicNumber")
 public class ChatRepoImpl implements ChatRepo {
 
     @Autowired
     private JdbcClient jdbcClient;
+
     @Override
     @Transactional
     public void add(DTOChat chat) {

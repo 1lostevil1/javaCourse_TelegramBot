@@ -3,14 +3,13 @@ package edu.java.repository.impl;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.interfaces.LinkRepo;
 import edu.java.repository.mappers.LinkMapper;
+import java.time.OffsetDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.logging.Logger;
-
+@SuppressWarnings("MagicNumber")
 @Repository
 public class LinkRepoImpl implements LinkRepo {
 
@@ -69,9 +68,10 @@ public class LinkRepoImpl implements LinkRepo {
             .query(new LinkMapper()).list();
 
     }
+
     @Override
     @Transactional
-    public DTOLink getLink(long id){
+    public DTOLink getLink(long id) {
         return jdbcClient.sql("SELECT FROM link WHERE link_id=? ").param(id).query(new LinkMapper()).single();
     }
 }
