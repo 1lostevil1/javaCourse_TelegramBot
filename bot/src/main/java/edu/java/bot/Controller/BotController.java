@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/updates")
 public class BotController {
-
     static final Logger LOGGER = Logger.getLogger(BotController.class.getName());
 
     @Operation(summary = "Отправить обновление")
@@ -45,16 +44,10 @@ public class BotController {
             }
         )
     })
+
     @PostMapping
     public String sendUpdate(@RequestBody LinkUpdate linkUpdate) {
         LOGGER.info(linkUpdate);
         return "Обновление отправлено!";
     }
-
-    @GetMapping
-    public String getUpdate(@RequestBody LinkUpdate linkUpdate) {
-        LOGGER.info(linkUpdate);
-        return "Обновление получено!";
-    }
-
 }
