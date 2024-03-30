@@ -1,5 +1,6 @@
 package edu.java.configuration;
 
+import edu.java.BotClient.BotClient;
 import edu.java.clients.GitHubClient;
 import edu.java.clients.StackOverflowClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,14 @@ public class ClientConfiguration {
             .baseUrl(baseUrl)
             .build();
         return new StackOverflowClient(stackOverflowClient);
+    }
+
+    @Bean("BotClient")
+    public BotClient getBotClient(
+        WebClient.Builder builder,
+        @Value("${app.base-url-bot}") String url
+    ) {
+        return new BotClient(builder, url);
     }
 
 }
