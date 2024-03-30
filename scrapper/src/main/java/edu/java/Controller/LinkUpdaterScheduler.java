@@ -70,7 +70,7 @@ public class LinkUpdaterScheduler {
         try {
             StackOveflowData sofData = Json.mapper().readValue(link.data(), StackOveflowData.class);
             StackOverflow.Question question = stackOverflow.items().getFirst();
-            if (question.lastActivityDate().isAfter(link.updateAt())
+            if (question.lastActivityDate().plusHours(3).isAfter(link.updateAt())
                 || (!sofData.isAnswered() && question.isAnswered())) {
                 linkUpdater.update(link.linkId(), question.lastActivityDate(), sofHandler.getData(stackOverflow));
                 description.append("В вопросе \"").append(question.title()).append("\" по ссылке ")
