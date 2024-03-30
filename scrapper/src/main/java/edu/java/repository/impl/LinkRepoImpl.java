@@ -63,7 +63,7 @@ public class LinkRepoImpl implements LinkRepo {
     @Override
     @Transactional
     public List<DTOLink> findOldLinksToCheck(OffsetDateTime time) {
-        return jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(3))
+        return jdbcClient.sql("SELECT * FROM link WHERE  check_at<?").param(time.minusMinutes(5))
             .query(new LinkMapper()).list();
 
     }

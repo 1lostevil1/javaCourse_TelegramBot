@@ -7,6 +7,8 @@ import edu.java.DTOModels.Github.DTOGithub;
 import edu.java.Github.GitHubData;
 import edu.java.Handlers.GitHandler;
 import edu.java.Handlers.SofHandler;
+import edu.java.StackOverflow.StackOveflowData;
+import edu.java.StackOverflow.StackOverflow;
 import edu.java.services.interfaces.LinkUpdater;
 import io.swagger.v3.core.util.Json;
 import java.time.OffsetDateTime;
@@ -43,7 +45,7 @@ public class LinkUpdaterScheduler {
                     description = gitHubUpdate(link);
                 }
                 case "stackoverflow" -> {
-                    description = "sofUpdate(link)";
+                    description = sofUpdate(link);
                 }
                 default -> {
                     description = "";
@@ -60,6 +62,29 @@ public class LinkUpdaterScheduler {
 
             }
         }
+    }
+
+    private String sofUpdate(DTOLink link) {
+        StringBuilder description = new StringBuilder();
+        StackOverflow stackOverflow = sofHandler.getInfo(link.url());
+        try {
+            StackOveflowData sofData = Json.mapper().readValue(link.data(), StackOveflowData.class);
+            StackOverflow.Question question = stackOverflow.items().getFirst();
+            if (question.lastActivityDate().isAfter(link.updateAt())
+                || (!sofData.isAnswered() && question.isAnswered())) {
+                linkUpdater.update(link.linkId(), question.lastActivityDate(), sofHandler.getData(stackOverflow));
+                description.append("В вопросе \"").append(question.title()).append("\" по ссылке ")
+                    .append(link.url());
+                if (!sofData.isAnswered() && question.isAnswered()) {
+                    description.append(" автор отметил один из ответов правильным. ");
+                } else {
+                    description.append(" был добавлен ответ. ");
+                }
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return description.toString();
     }
 
     private String gitHubUpdate(DTOLink link) {
@@ -90,7 +115,6 @@ public class LinkUpdaterScheduler {
                 if (description.toString().equals(begDescription)) {
                     description.append(" есть обновление. ");
                 }
-                description.append("Скорее переходите по ссылке!");
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
