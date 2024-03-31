@@ -58,7 +58,8 @@ public class CommandHandler {
     public SendMessage executeCommand(Update update) {
         Long id = update.message().chat().id();
         String message = update.message().text();
-        Command command = commands.get(message);
+        Command command = null;
+        if(message!=null) command = commands.get(message);
         if (command != null) {
             return command.apply(update,scrapperClient);
         }

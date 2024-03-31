@@ -208,7 +208,7 @@ public class ScrapperController {
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Статус успешно отправлен",
+            description = "Статус успешно получен",
             content = @Content()
         ),
         @ApiResponse(
@@ -229,7 +229,7 @@ public class ScrapperController {
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Статус успешно отправлен",
+            description = "готов",
             content = @Content()
         ),
         @ApiResponse(

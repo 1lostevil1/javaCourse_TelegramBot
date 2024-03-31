@@ -10,6 +10,7 @@ public class AddLink implements Command {
     @Override
     public SendMessage apply(Update update, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
+        if(update.message().document()!=null)  return new SendMessage(id,"Доп контент не поддерживается");
         String url = update.message().text();
         scrapperClient.sendState(id, "NONE");
         if(UrlChecker.check(url)) {
