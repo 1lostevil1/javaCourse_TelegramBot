@@ -25,7 +25,8 @@ public class ChatRepositoryImplTest extends IntegrationTest {
         chat = new DTOChat(
             1L,
             "Alexey",
-            OffsetDateTime.parse("2022-01-01T10:30:00+00:00")
+            OffsetDateTime.parse("2022-01-01T10:30:00+00:00"),
+            "NONE"
         );
     }
 

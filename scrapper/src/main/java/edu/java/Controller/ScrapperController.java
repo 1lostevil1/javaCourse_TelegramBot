@@ -3,9 +3,11 @@ package edu.java.Controller;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.Request.AddLinkRequest;
 import edu.java.Request.RemoveLinkRequest;
+import edu.java.Request.StateRequest;
 import edu.java.Response.ApiErrorResponse;
 import edu.java.Response.LinkResponse;
 import edu.java.Response.ListLinksResponse;
+import edu.java.Response.StateResponse;
 import edu.java.exceptions.AlreadyExistException;
 import edu.java.exceptions.NotExistException;
 import edu.java.exceptions.RepeatedRegistrationException;
@@ -17,6 +19,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,7 +56,7 @@ public class ScrapperController {
         )
     })
     @PostMapping("/tg-chat/{id}")
-    public void chatReg(@PathVariable long id, String username) throws RepeatedRegistrationException {
+    public void chatReg(@PathVariable long id, @RequestParam String username) throws RepeatedRegistrationException {
         chatService.register(id, username);
     }
 
@@ -141,10 +145,9 @@ public class ScrapperController {
     @PostMapping("/links")
     public LinkResponse addLink(
         @RequestHeader(name = "Tg-Chat-Id") long id,
-        @RequestParam String username,
         AddLinkRequest addLinkRequest
-    ) throws AlreadyExistException {
-        linkService.add(id, addLinkRequest.link(), username);
+    ) throws AlreadyExistException, NotExistException {
+        linkService.add(id, addLinkRequest.link());
         return new LinkResponse(id, addLinkRequest.link());
     }
 
@@ -182,6 +185,69 @@ public class ScrapperController {
     ) throws NotExistException {
         linkService.remove(id, removeLinkRequest.link());
         return new LinkResponse(id, removeLinkRequest.link());
+    }
+
+    @Operation(summary = "Обновить состояние")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Статус успешно обновлен",
+            content = @Content()
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Чат не существует",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ApiErrorResponse.class)
+            )
+        )
+    })
+    @PostMapping("/tg-chat/state/{id}")
+    public void setState(@PathVariable @Valid @Positive Long id, StateRequest stateRequest) {
+        chatService.setState(id,stateRequest.state());
+    }
+
+    @Operation(summary = "Получить состояние")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Статус успешно отправлен",
+            content = @Content()
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Чат не существует",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ApiErrorResponse.class)
+            )
+        )
+    })
+    @GetMapping("/tg-chat/state/{id}")
+    public StateResponse getState(@PathVariable @Valid @Positive Long id) throws NotExistException {
+        return new StateResponse(id,chatService.getState(id).state());
+    }
+
+    @Operation(summary = "Получить готовность")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Статус успешно отправлен",
+            content = @Content()
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Чат не существует",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ApiErrorResponse.class)
+            )
+        )
+    })
+    @GetMapping("/tg-chat/ready/{id}")
+    public boolean getReady(@PathVariable @Valid @Positive Long id)  {
+        return chatService.isChatExists(id);
     }
 }
 

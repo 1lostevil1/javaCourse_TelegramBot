@@ -15,6 +15,7 @@ import edu.java.repository.impl.LinkRepoImpl;
 import edu.java.services.interfaces.LinkService;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -37,9 +38,9 @@ public class JdbcLinkService implements LinkService {
     private SofHandler sofHandler;
 
     @Override
-    public void add(long chatId, String url, String username) throws AlreadyExistException {
+    public void add(long chatId, String url) throws AlreadyExistException, NotExistException {
         if (!isChatExists(chatId)) {
-            chatRepository.add(new DTOChat(chatId, username, OffsetDateTime.now()));
+            throw new NotExistException("Не пройдена регистрация");
         }
 
         DTOLink link = linkRepository.findByUrl(url);
@@ -63,10 +64,16 @@ public class JdbcLinkService implements LinkService {
 
     @Override
     public void remove(long chatId, String url) throws NotExistException {
+        if (!isChatExists(chatId)) {
+            throw new NotExistException("Не пройдена регистрация");
+        }
         if (linkRepository.findByUrl(url) == null) {
-            throw new NotExistException("Такой ссылки не отслеживается");
+            throw new NotExistException("Такая ссылка не отслеживается");
         }
         List<DTOChatLink> links = chatLinkRepository.findByChatId(chatId);
+        if (links.isEmpty()) {
+            throw new NotExistException("Список ссылок пуст");
+        }
         boolean isLinkExist = false;
         for (DTOChatLink link : links) {
             List<DTOChatLink> chats = chatLinkRepository.findByLinkId(link.linkId());
@@ -74,7 +81,7 @@ public class JdbcLinkService implements LinkService {
                 isLinkExist = true;
             }
             chatLinkRepository.remove(new DTOChatLink(chatId, link.linkId()));
-            if (links.size() == 1) {
+            if (chats.size() == 1) {
                 linkRepository.remove(new DTOLink(link.linkId(), null, null, null, null, null));
             }
         }
@@ -84,11 +91,25 @@ public class JdbcLinkService implements LinkService {
     }
 
     @Override
-    public List<DTOLink> listAll(long chatId) {
-        return chatLinkRepository
-            .findByChatId(chatId)
+    public List<DTOLink> listAll(long chatId) throws NotExistException {
+        if(!isChatExists(chatId)) throw new NotExistException("Не пройдена регистрация");
+        return chatLinkRepository.findByChatId(chatId)
             .stream()
-            .map(chatLink -> linkRepository.getLink(chatLink.linkId())).collect(Collectors.toList());
+            .map(DTOChatLink::linkId)
+            .map(linkId -> {
+                List<DTOLink> links = linkRepository.findAll();
+                for (DTOLink link : links) {
+                    if (linkId.equals(link.linkId())) {
+                        return link;
+                    }
+                }
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .toList();
+
+//        if(links.isEmpty()) throw new NotExistException("список ссылок пуст");
+//        return links;
 
     }
 

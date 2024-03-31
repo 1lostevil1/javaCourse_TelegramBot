@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface LinkService {
 
-    void add(long chatId, String url, String username) throws AlreadyExistException;
+    void add(long chatId, String url) throws AlreadyExistException, NotExistException;
 
     void remove(long chatId, String url) throws NotExistException;
 
-    List<DTOLink> listAll(long chatId);
+    List<DTOLink> listAll(long chatId) throws NotExistException;
 }

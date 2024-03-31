@@ -29,7 +29,8 @@ public class ChatLinkRepositoryImplTest extends IntegrationTest {
     private final DTOChat chat = new DTOChat(
         1L,
         "Alexey",
-        time
+        time,
+        "NONE"
     );
     private final DTOLink link = new DTOLink(
         1L,

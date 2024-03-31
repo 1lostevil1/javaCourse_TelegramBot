@@ -14,7 +14,8 @@ public class ChatMapper implements RowMapper<DTOChat> {
             return new DTOChat(
                 rs.getLong("chat_id"),
                 rs.getString("name"),
-                rs.getTimestamp("created_at").toLocalDateTime().atOffset(ZoneOffset.UTC)
+                rs.getTimestamp("created_at").toLocalDateTime().atOffset(ZoneOffset.UTC),
+                rs.getString("state")
             );
         } catch (SQLException e) {
             return null;

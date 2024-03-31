@@ -2,8 +2,12 @@ package edu.java.bot.ScrapperClient;
 
 import edu.java.Request.AddLinkRequest;
 import edu.java.Request.RemoveLinkRequest;
+import edu.java.Request.StateRequest;
 import edu.java.Response.LinkResponse;
 import edu.java.Response.ListLinksResponse;
+import edu.java.Response.StateResponse;
+import jakarta.annotation.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -20,9 +24,10 @@ public class ScrapperClient {
         this.webClient = webClient;
     }
 
-    public void chatReg(long chatId) {
+    public void chatReg(long chatId, String userName) {
         webClient.post()
             .uri("/tg-chat/{id}", chatId)
+            .body(Mono.just(userName), String.class)
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,
@@ -72,7 +77,6 @@ public class ScrapperClient {
     public LinkResponse addLink(Long chatId, String link) {
         return webClient.post()
             .uri("/links", chatId)
-            .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(new AddLinkRequest(link)))
             .retrieve()
             .onStatus(
@@ -87,7 +91,7 @@ public class ScrapperClient {
             .block();
     }
 
-    public LinkResponse delLinks(Long chatId, String link) {
+    public LinkResponse delLink(Long chatId, String link) {
         return webClient.method(HttpMethod.DELETE)
             .uri("/links")
             .header("Tg-Chat-Id", chatId.toString())
@@ -105,4 +109,48 @@ public class ScrapperClient {
             .bodyToMono(LinkResponse.class)
             .block();
     }
+
+    public void sendState (Long chatId, String state) {
+        webClient.post().uri("/tg-chat/state/{id}", chatId, state).accept(MediaType.APPLICATION_JSON)
+             .body(BodyInserters.fromValue(new StateRequest(state)))
+            .retrieve()
+            .onStatus(
+                HttpStatusCode::is4xxClientError,
+                error -> Mono.error(new RuntimeException("Link is not valid"))
+            )
+            .onStatus(
+                HttpStatusCode::is5xxServerError,
+                error -> Mono.error(new RuntimeException("Server is not responding"))
+            )
+            .bodyToMono(StateResponse.class)
+            .block();
+    }
+
+    public StateResponse getState (Long chatId) {
+        return webClient.get().uri("/tg-chat/state/{id}", chatId).accept(MediaType.APPLICATION_JSON)
+            .retrieve().onStatus(
+                HttpStatusCode::is4xxClientError,
+                error -> Mono.error(new RuntimeException("Link is not valid"))
+            )
+            .onStatus(
+                HttpStatusCode::is5xxServerError,
+                error -> Mono.error(new RuntimeException("Server is not responding"))
+            )
+            .bodyToMono(StateResponse.class)
+            .block();
+    }
+    public boolean isReady (Long chatId) {
+        return Boolean.TRUE.equals(webClient.get().uri("/tg-chat/ready/{id}", chatId).accept(MediaType.APPLICATION_JSON)
+                .retrieve().onStatus(
+                        HttpStatusCode::is4xxClientError,
+                        error -> Mono.error(new RuntimeException("Not ready"))
+                )
+                .onStatus(
+                        HttpStatusCode::is5xxServerError,
+                        error -> Mono.error(new RuntimeException("Server is not responding"))
+                )
+                .bodyToMono(boolean.class)
+                .block());
+    }
+
 }
