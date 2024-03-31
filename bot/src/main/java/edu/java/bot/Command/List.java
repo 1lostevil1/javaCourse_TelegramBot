@@ -17,12 +17,12 @@ public class List implements Command {
                 resultLinks.append("Отслеживаемых ссылок нет!");
             } else {
                 for (int i = 0; i < links.size(); ++i) {
-                    resultLinks.append((i + 1)).append(". ").append(links.links()[i]).append("\n\n");
+                    resultLinks.append((i + 1)).append(". ").append(links.links()[i].url()).append("\n\n");
                 }
             }
 
         } catch (Exception e) {
-            return new SendMessage(id, e.getMessage());
+            return new SendMessage(id,"Не пройдена регистрация");
         }
         return new SendMessage(id, resultLinks.toString());
     }

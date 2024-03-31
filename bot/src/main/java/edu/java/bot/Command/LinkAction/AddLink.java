@@ -17,12 +17,12 @@ public class AddLink implements Command {
                 scrapperClient.addLink(id,url);
                 return new SendMessage(id,"Ссылка добавлена в отслеживаемые");
             } catch (Exception e) {
-                return new SendMessage(id, e.getMessage());
+                return new SendMessage(id, "Такая ссылка уже отслеживается");
             }
         }
         return new SendMessage(id, "выражение не является подходящей ссылкой ссылкой\n" +
             "используйте ссылки форматов:\n" +
             "1)https://github.com/name/repo\n"+
-            "2)https://ru.stackoverflow.com/questions/\n");
+            "2)https://stackoverflow.com/questions/111/name/\n");
     }
 }

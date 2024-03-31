@@ -10,14 +10,12 @@ public class Track implements Command {
     public SendMessage apply(Update update, ScrapperClient scrapperClient) {
 
         Long id = update.message().chat().id();
-        String url = update.message().text();
         try {
-            scrapperClient.addLink(id, url);
             scrapperClient.sendState(id,"ADD");
         } catch (Exception e) {
-            return new SendMessage(id, e.getMessage());
+            return new SendMessage(id, "Вы не авторизованы");
         }
-        return new SendMessage(id, "вставьте ссылку на источник");
+        return new SendMessage(id, "Вставьте ссылку на источник");
 
     }
 }

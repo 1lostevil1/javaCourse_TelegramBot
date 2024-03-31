@@ -108,9 +108,6 @@ public class JdbcLinkService implements LinkService {
             .filter(Objects::nonNull)
             .toList();
 
-//        if(links.isEmpty()) throw new NotExistException("список ссылок пуст");
-//        return links;
-
     }
 
     private boolean isChatExists(long id) {

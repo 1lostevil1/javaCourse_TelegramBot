@@ -60,9 +60,6 @@ public class JdbcChatService implements ChatService {
 
     @Override
     public DTOState getState(long tgChatId) throws NotExistException {
-        if (!isChatExists(tgChatId)) {
-            throw new NotExistException("Не пройдена регистрация");
-        }
         return chatRepo.getState(tgChatId);
     }
     @Override

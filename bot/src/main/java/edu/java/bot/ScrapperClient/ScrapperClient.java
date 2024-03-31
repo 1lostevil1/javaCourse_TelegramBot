@@ -76,7 +76,8 @@ public class ScrapperClient {
 
     public LinkResponse addLink(Long chatId, String link) {
         return webClient.post()
-            .uri("/links", chatId)
+            .uri("/links")
+            .header("Tg-Chat-Id", chatId.toString())
             .body(BodyInserters.fromValue(new AddLinkRequest(link)))
             .retrieve()
             .onStatus(
@@ -111,8 +112,9 @@ public class ScrapperClient {
     }
 
     public void sendState (Long chatId, String state) {
-        webClient.post().uri("/tg-chat/state/{id}", chatId, state).accept(MediaType.APPLICATION_JSON)
-             .body(BodyInserters.fromValue(new StateRequest(state)))
+        webClient.post().uri("/tg-chat/state/{id}", chatId, state)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(new StateRequest(state)))
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,

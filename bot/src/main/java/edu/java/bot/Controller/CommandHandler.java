@@ -32,7 +32,7 @@ public class CommandHandler {
     public CommandHandler(ScrapperClient scrapperClient) {
         this.scrapperClient = scrapperClient;
         this.commands = Map.of(
-            "/start", new Start(scrapperClient),
+            "/start", new Start(),
             "/help", new Help(),
             "/list", new List(),
             "/track", new Track(),
@@ -40,7 +40,7 @@ public class CommandHandler {
         );
         this.actions = Map.of(
             "ADD", new AddLink(),
-            "DELL", new DelLink()
+            "DEL", new DelLink()
         );
     }
 
