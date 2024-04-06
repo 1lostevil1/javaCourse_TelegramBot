@@ -1,10 +1,9 @@
 package edu.java.scrapper.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOChat;
-import edu.java.repository.impl.ChatRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcChatRepoImpl;
 import edu.java.scrapper.IntegrationTest;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public class ChatRepositoryImplTest extends IntegrationTest {
     @Autowired
-    private ChatRepoImpl chatRepository;
+    private jdbcChatRepoImpl chatRepository;
 
     static DTOChat chat;
 

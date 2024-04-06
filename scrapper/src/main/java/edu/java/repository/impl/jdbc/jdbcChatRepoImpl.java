@@ -1,4 +1,4 @@
-package edu.java.repository.impl;
+package edu.java.repository.impl.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOChat;
 import edu.java.DTOModels.DTOjdbc.DTOState;
@@ -6,7 +6,6 @@ import edu.java.repository.interfaces.ChatRepo;
 import edu.java.repository.mappers.ChatMapper;
 import java.util.List;
 import edu.java.repository.mappers.StateMapper;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -14,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @SuppressWarnings("MagicNumber")
-public class ChatRepoImpl implements ChatRepo {
+public class jdbcChatRepoImpl implements ChatRepo {
 
     @Autowired
     private JdbcClient jdbcClient;

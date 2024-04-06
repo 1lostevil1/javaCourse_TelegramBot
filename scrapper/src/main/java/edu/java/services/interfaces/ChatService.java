@@ -1,7 +1,6 @@
 package edu.java.services.interfaces;
 
 import edu.java.DTOModels.DTOjdbc.DTOState;
-import edu.java.Response.StateResponse;
 import edu.java.exceptions.NotExistException;
 import edu.java.exceptions.RepeatedRegistrationException;
 

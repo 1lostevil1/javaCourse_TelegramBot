@@ -4,30 +4,24 @@ import edu.java.DTOModels.DTOjdbc.DTOChat;
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.DTOModels.DTOjdbc.DTOState;
-import edu.java.Response.StateResponse;
 import edu.java.exceptions.NotExistException;
 import edu.java.exceptions.RepeatedRegistrationException;
-import edu.java.repository.impl.ChatLinkRepoImpl;
-import edu.java.repository.impl.ChatRepoImpl;
-import edu.java.repository.impl.LinkRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
 import edu.java.services.interfaces.ChatService;
 import java.time.OffsetDateTime;
 import java.util.List;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
 
-@Service
+@AllArgsConstructor
 public class JdbcChatService implements ChatService {
 
-    @Autowired
-    private ChatRepoImpl chatRepo;
+    private jdbcChatRepoImpl chatRepo;
 
-    @Autowired
-    private LinkRepoImpl linkRepo;
+    private jdbcLinkRepoImpl linkRepo;
 
-    @Autowired
-    private ChatLinkRepoImpl chatLinkRepo;
+    private jdbcChatLinkRepoImpl chatLinkRepo;
 
     @Override
     public void register(long tgChatId, String userName) throws RepeatedRegistrationException {

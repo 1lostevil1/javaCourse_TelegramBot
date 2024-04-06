@@ -1,7 +1,7 @@
 package edu.java.scrapper.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOLink;
-import edu.java.repository.impl.LinkRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class LinkRepositoryImplTest extends IntegrationTest {
 
     @Autowired
-    private LinkRepoImpl linkRepository;
+    private jdbcLinkRepoImpl linkRepository;
 
     static DTOLink link;
 

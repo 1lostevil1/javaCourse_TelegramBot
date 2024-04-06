@@ -2,22 +2,22 @@ package edu.java.services.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
-import edu.java.repository.impl.ChatLinkRepoImpl;
-import edu.java.repository.impl.LinkRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
 import edu.java.services.interfaces.LinkUpdater;
 import java.time.OffsetDateTime;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class JdbcLinkUpdater implements LinkUpdater {
+@AllArgsConstructor
+public class JdbcLinkUpdaterService implements LinkUpdater {
 
-    @Autowired
-    private LinkRepoImpl linkRepository;
+    private jdbcLinkRepoImpl linkRepository;
 
-    @Autowired
-    private ChatLinkRepoImpl chatLinkRepository;
+    private jdbcChatLinkRepoImpl chatLinkRepository;
 
     @Override
     public void update(long linkId, OffsetDateTime time, String data) {
