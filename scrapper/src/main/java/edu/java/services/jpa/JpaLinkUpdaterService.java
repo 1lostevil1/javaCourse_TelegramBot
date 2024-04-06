@@ -1,15 +1,10 @@
 package edu.java.services.jpa;
 
-import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.entity.ChatEntity;
-import edu.java.repository.impl.jpa.jpaChatRepoImpl;
 import edu.java.repository.impl.jpa.jpaLinkRepoImpl;
 import edu.java.services.interfaces.LinkUpdater;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -30,12 +25,12 @@ public class JpaLinkUpdaterService implements LinkUpdater {
 
     @Override
     public List<DTOLink> findOldLinksToUpdate(OffsetDateTime timestamp) {
-        return linkRepository.findAllByCheckAtBefore(timestamp).stream().map(link -> new DTOLink(
+        return linkRepository.findAllByCheckAtBefore(timestamp.minusMinutes(5)).stream().map(link -> new DTOLink(
             link.getLinkId(),
             link.getUrl(),
-            link.getUpdatedAt(),
+            link.getUpdateAt(),
             link.getCheckAt(),
-            link.getType(),
+            link.getLink_type(),
             link.getData()
         )).toList();
     }

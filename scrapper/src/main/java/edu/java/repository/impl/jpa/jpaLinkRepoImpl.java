@@ -19,7 +19,7 @@ public interface jpaLinkRepoImpl extends JpaRepository<LinkEntity, Long> {
     boolean existsByUrl(String url);
 
     @Modifying
-    @Query("update LinkEntity c set c.updatedAt = :time, c.data=:data where c.linkId =:linkId")
+    @Query("update LinkEntity c set c.updateAt = :time, c.data=:data where c.linkId =:linkId")
     void updateData(
         @Param("linkId") Long linkId,
         @Param("time") OffsetDateTime time,

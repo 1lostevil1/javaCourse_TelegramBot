@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,9 +29,9 @@ public class LinkEntity {
         Set<ChatEntity> chats
     ) {
         this.url = url;
-        this.updatedAt = updatedAt;
+        this.updateAt = updatedAt;
         this.checkAt = checkAt;
-        this.type = type;
+        this.link_type = type;
         this.data = data;
         this.chats = chats;
     }
@@ -41,9 +40,9 @@ public class LinkEntity {
     @GeneratedValue(strategy = IDENTITY)
     private long linkId;
     private String url;
-    private OffsetDateTime updatedAt;
+    private OffsetDateTime updateAt;
     private OffsetDateTime checkAt;
-    private String type;
+    private String link_type;
     private String data;
     @ManyToMany(mappedBy = "links")
     private Set<ChatEntity> chats = new HashSet<>();

@@ -24,11 +24,11 @@ import java.util.Set;
 public class ChatEntity {
     @Id
     private long chatId;
+    private String name;
     private OffsetDateTime createdAt;
-    private String createdBy;
     private String state;
     @ManyToMany
-    @JoinTable(name="employee_task",
+    @JoinTable(name="chat_link",
                joinColumns=  @JoinColumn(name="chat_id"),
                inverseJoinColumns= @JoinColumn(name="link_id") )
     private Set<LinkEntity> links ;

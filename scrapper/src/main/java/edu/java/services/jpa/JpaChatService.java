@@ -24,7 +24,7 @@ public class JpaChatService implements ChatService {
         if (isChatExists(tgChatId)) {
             throw new RepeatedRegistrationException("Повторная авторизация невозможна");
         }
-        chatRepository.saveAndFlush(new ChatEntity(tgChatId, OffsetDateTime.now(), userName, "NONE", new HashSet<>()));
+        chatRepository.saveAndFlush(new ChatEntity(tgChatId,userName, OffsetDateTime.now(), "NONE", new HashSet<>()));
     }
 
     @Override

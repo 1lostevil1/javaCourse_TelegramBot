@@ -1,6 +1,5 @@
 package edu.java.services.jpa;
 
-import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.DTOModels.Github.DTOGithub;
 import edu.java.Handlers.GitHandler;
@@ -82,9 +81,9 @@ public class JpaLinkService implements LinkService {
             result.add(new DTOLink(
                 link.getLinkId(),
                 link.getUrl(),
-                link.getUpdatedAt(),
+                link.getUpdateAt(),
                 link.getCheckAt(),
-                link.getType(),
+                link.getLink_type(),
                 link.getData()
             ));
         }
