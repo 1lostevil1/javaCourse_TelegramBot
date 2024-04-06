@@ -13,5 +13,5 @@ public interface ChatService {
 
     DTOState getState(long id) throws NotExistException;
 
-    public boolean isChatExists(long id);
+    boolean isChatExists(long id);
 }

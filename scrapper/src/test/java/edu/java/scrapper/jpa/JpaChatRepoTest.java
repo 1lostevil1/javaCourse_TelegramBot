@@ -1,9 +1,7 @@
 package edu.java.scrapper.jpa;
 
-import edu.java.DTOModels.DTOjdbc.DTOChat;
 import edu.java.repository.entity.ChatEntity;
-import edu.java.repository.impl.jdbc.jdbcChatRepoImpl;
-import edu.java.repository.impl.jpa.jpaChatRepoImpl;
+import edu.java.repository.impl.jpa.JpaChatRepoImpl;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class JpaChatRepoTest extends IntegrationTest {
 
     @Autowired
-    private jpaChatRepoImpl chatRepository;
+    private JpaChatRepoImpl chatRepository;
 
     static ChatEntity chat;
 

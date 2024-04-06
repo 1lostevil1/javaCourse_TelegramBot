@@ -8,9 +8,9 @@ import edu.java.Handlers.SofHandler;
 import edu.java.StackOverflow.StackOverflow;
 import edu.java.exceptions.AlreadyExistException;
 import edu.java.exceptions.NotExistException;
-import edu.java.repository.impl.jdbc.jdbcChatLinkRepoImpl;
-import edu.java.repository.impl.jdbc.jdbcChatRepoImpl;
-import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcLinkRepoImpl;
 import edu.java.services.interfaces.LinkService;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -23,9 +23,9 @@ import org.apache.commons.lang3.tuple.Pair;
 @SuppressWarnings("MultipleStringLiterals")
 public class JdbcLinkService implements LinkService {
 
-    private jdbcChatRepoImpl chatRepository;
-    private jdbcLinkRepoImpl linkRepository;
-    private jdbcChatLinkRepoImpl chatLinkRepository;
+    private JdbcChatRepoImpl chatRepository;
+    private JdbcLinkRepoImpl linkRepository;
+    private JdbcChatLinkRepoImpl chatLinkRepository;
     private GitHandler gitHubHandler;
     private SofHandler sofHandler;
 

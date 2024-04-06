@@ -2,16 +2,17 @@ package edu.java.services.jpa;
 
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.entity.ChatEntity;
-import edu.java.repository.impl.jpa.jpaLinkRepoImpl;
+import edu.java.repository.impl.jpa.JpaLinkRepoImpl;
 import edu.java.services.interfaces.LinkUpdater;
-import lombok.AllArgsConstructor;
 import java.time.OffsetDateTime;
 import java.util.List;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 public class JpaLinkUpdaterService implements LinkUpdater {
 
-    private jpaLinkRepoImpl linkRepository;
+    private JpaLinkRepoImpl linkRepository;
 
     @Override
     public void update(long linkId, OffsetDateTime time, String data) {

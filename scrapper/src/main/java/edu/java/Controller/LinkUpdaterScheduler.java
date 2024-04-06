@@ -15,7 +15,6 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -93,8 +92,6 @@ public class LinkUpdaterScheduler {
         DTOGithub gitHub = gitHubHandler.getInfo(link.url());
         try {
             GitHubData gitHubData = Json.mapper().readValue(link.data(), GitHubData.class);
-            System.out.println(gitHub.repository().pushedTime());
-            System.out.println(link.updateAt());
             if (gitHub.repository().pushedTime().isAfter(link.updateAt())) {
                 linkUpdater.update(link.linkId(), gitHub.repository().pushedTime(), gitHubHandler.getData(gitHub));
                 description.append("В репозитории ").append(gitHub.repository().repoName()).append(" по ссылке ")

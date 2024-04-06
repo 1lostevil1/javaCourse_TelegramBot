@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 @Repository
-public class jdbcLinkRepoImpl implements LinkRepo {
+public class JdbcLinkRepoImpl implements LinkRepo {
 
     @Autowired
     private JdbcClient jdbcClient;

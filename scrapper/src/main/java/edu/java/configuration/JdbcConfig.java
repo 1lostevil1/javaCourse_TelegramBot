@@ -2,9 +2,9 @@ package edu.java.configuration;
 
 import edu.java.Handlers.GitHandler;
 import edu.java.Handlers.SofHandler;
-import edu.java.repository.impl.jdbc.jdbcChatLinkRepoImpl;
-import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
-import edu.java.repository.impl.jdbc.jdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcLinkRepoImpl;
 import edu.java.services.interfaces.ChatService;
 import edu.java.services.interfaces.LinkService;
 import edu.java.services.interfaces.LinkUpdater;
@@ -17,13 +17,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "database-access-type", havingValue = "jdbc")
-public class jdbcConfig {
+public class JdbcConfig {
 
     @Bean
     public LinkService linkService(
-        jdbcChatRepoImpl chatRepository,
-        jdbcLinkRepoImpl linkRepository,
-        jdbcChatLinkRepoImpl chatLinkRepository,
+        JdbcChatRepoImpl chatRepository,
+        JdbcLinkRepoImpl linkRepository,
+        JdbcChatLinkRepoImpl chatLinkRepository,
         GitHandler gitHubHandler,
         SofHandler sofHandler
     ) {
@@ -33,18 +33,18 @@ public class jdbcConfig {
 
     @Bean
     public ChatService tgChatService(
-        jdbcChatRepoImpl chatRepo,
-        jdbcLinkRepoImpl linkRepo,
-        jdbcChatLinkRepoImpl chatLinkRepo
+        JdbcChatRepoImpl chatRepo,
+        JdbcLinkRepoImpl linkRepo,
+        JdbcChatLinkRepoImpl chatLinkRepo
     ) {
         return new JdbcChatService(chatRepo, linkRepo, chatLinkRepo);
     }
 
     @Bean
     public LinkUpdater linkUpdater(
-        jdbcLinkRepoImpl linkRepository,
-        jdbcChatLinkRepoImpl chatLinkRepository
+        JdbcLinkRepoImpl linkRepository,
+        JdbcChatLinkRepoImpl chatLinkRepository
     ) {
-        return new JdbcLinkUpdaterService(linkRepository,chatLinkRepository);
+        return new JdbcLinkUpdaterService(linkRepository, chatLinkRepository);
     }
 }

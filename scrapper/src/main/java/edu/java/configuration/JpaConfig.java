@@ -2,8 +2,8 @@ package edu.java.configuration;
 
 import edu.java.Handlers.GitHandler;
 import edu.java.Handlers.SofHandler;
-import edu.java.repository.impl.jpa.jpaChatRepoImpl;
-import edu.java.repository.impl.jpa.jpaLinkRepoImpl;
+import edu.java.repository.impl.jpa.JpaChatRepoImpl;
+import edu.java.repository.impl.jpa.JpaLinkRepoImpl;
 import edu.java.services.interfaces.ChatService;
 import edu.java.services.interfaces.LinkService;
 import edu.java.services.interfaces.LinkUpdater;
@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "database-access-type", havingValue = "jpa")
-public class jpaConfig {
+public class JpaConfig {
 
     @Bean
     public LinkService linkService(
-        jpaChatRepoImpl chatRepository,
-        jpaLinkRepoImpl linkRepository,
+        JpaChatRepoImpl chatRepository,
+        JpaLinkRepoImpl linkRepository,
         GitHandler gitHubHandler,
         SofHandler sofHandler
     ) {
@@ -31,15 +31,15 @@ public class jpaConfig {
 
     @Bean
     public ChatService tgChatService(
-        jpaChatRepoImpl chatRepo,
-        jpaLinkRepoImpl linkRepo
+        JpaChatRepoImpl chatRepo,
+        JpaLinkRepoImpl linkRepo
     ) {
         return new JpaChatService(chatRepo, linkRepo);
     }
 
     @Bean
     public LinkUpdater linkUpdater(
-        jpaLinkRepoImpl linkRepository
+        JpaLinkRepoImpl linkRepository
     ) {
         return new JpaLinkUpdaterService(linkRepository);
     }

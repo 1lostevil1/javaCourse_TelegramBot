@@ -1,7 +1,7 @@
 package edu.java.scrapper.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOLink;
-import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcLinkRepoImpl;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class LinkRepositoryImplTest extends IntegrationTest {
 
     @Autowired
-    private jdbcLinkRepoImpl linkRepository;
+    private JdbcLinkRepoImpl linkRepository;
 
     static DTOLink link;
 
@@ -59,7 +59,7 @@ public class LinkRepositoryImplTest extends IntegrationTest {
         assertEquals(1, linkRepository.findAll().size());
         assertEquals(
             "[DTOLink[linkId=" + linkRepository.findByUrl(link.url()).linkId() +
-                ", url=https://test, updateAt=2022-01-01T10:30Z, checkAt=2022-01-01T10:30Z, linkType=, data=]]",
+                ", url=https://test, updateAt=2022-01-01T10:30Z, checkAt=2022-01-01T13:30Z, linkType=, data=]]",
             linkRepository.findAll().toString()
         );
     }

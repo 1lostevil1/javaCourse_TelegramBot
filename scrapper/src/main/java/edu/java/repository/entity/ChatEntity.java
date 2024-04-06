@@ -6,13 +6,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.time.OffsetDateTime;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -28,8 +27,8 @@ public class ChatEntity {
     private OffsetDateTime createdAt;
     private String state;
     @ManyToMany
-    @JoinTable(name="chat_link",
-               joinColumns=  @JoinColumn(name="chat_id"),
-               inverseJoinColumns= @JoinColumn(name="link_id") )
-    private Set<LinkEntity> links ;
+    @JoinTable(name = "chat_link",
+               joinColumns = @JoinColumn(name = "chat_id"),
+               inverseJoinColumns = @JoinColumn(name = "link_id"))
+    private Set<LinkEntity> links;
 }

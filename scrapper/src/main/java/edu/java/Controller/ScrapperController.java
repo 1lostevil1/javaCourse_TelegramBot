@@ -57,7 +57,7 @@ public class ScrapperController {
         )
     })
     @PostMapping("/tg-chat/{id}")
-    public void chatReg(@PathVariable long id,@RequestBody String username) throws RepeatedRegistrationException {
+    public void chatReg(@PathVariable long id, @RequestBody String username) throws RepeatedRegistrationException {
         chatService.register(id, username);
     }
 
@@ -202,8 +202,8 @@ public class ScrapperController {
         )
     })
     @PostMapping("/tg-chat/state/{id}")
-    public void setState(@PathVariable @Valid @Positive Long id,@RequestBody StateRequest stateRequest) {
-        chatService.setState(id,stateRequest.state());
+    public void setState(@PathVariable @Valid @Positive Long id, @RequestBody StateRequest stateRequest) {
+        chatService.setState(id, stateRequest.state());
     }
 
     @Operation(summary = "Получить состояние")
@@ -224,7 +224,7 @@ public class ScrapperController {
     })
     @GetMapping("/tg-chat/state/{id}")
     public StateResponse getState(@PathVariable @Valid @Positive Long id) throws NotExistException {
-        return new StateResponse(id,chatService.getState(id).state());
+        return new StateResponse(id, chatService.getState(id).state());
     }
 
     @Operation(summary = "Получить готовность")
@@ -244,7 +244,7 @@ public class ScrapperController {
         )
     })
     @GetMapping("/tg-chat/ready/{id}")
-    public boolean getReady(@PathVariable @Valid @Positive Long id)  {
+    public boolean getReady(@PathVariable @Valid @Positive Long id) {
         return chatService.isChatExists(id);
     }
 }

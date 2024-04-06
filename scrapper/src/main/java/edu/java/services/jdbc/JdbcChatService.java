@@ -6,9 +6,9 @@ import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.DTOModels.DTOjdbc.DTOState;
 import edu.java.exceptions.NotExistException;
 import edu.java.exceptions.RepeatedRegistrationException;
-import edu.java.repository.impl.jdbc.jdbcChatLinkRepoImpl;
-import edu.java.repository.impl.jdbc.jdbcChatRepoImpl;
-import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcLinkRepoImpl;
 import edu.java.services.interfaces.ChatService;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -17,11 +17,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JdbcChatService implements ChatService {
 
-    private jdbcChatRepoImpl chatRepo;
+    private JdbcChatRepoImpl chatRepo;
 
-    private jdbcLinkRepoImpl linkRepo;
+    private JdbcLinkRepoImpl linkRepo;
 
-    private jdbcChatLinkRepoImpl chatLinkRepo;
+    private JdbcChatLinkRepoImpl chatLinkRepo;
 
     @Override
     public void register(long tgChatId, String userName) throws RepeatedRegistrationException {
@@ -44,18 +44,19 @@ public class JdbcChatService implements ChatService {
                 linkRepo.remove(new DTOLink(link.linkId(), null, null, null, null, null));
             }
         }
-        chatRepo.remove(new DTOChat(tgChatId, null, null,null));
+        chatRepo.remove(new DTOChat(tgChatId, null, null, null));
     }
 
     @Override
-    public void setState(long id,  String state) {
-        chatRepo.setState(id,state);
+    public void setState(long id, String state) {
+        chatRepo.setState(id, state);
     }
 
     @Override
     public DTOState getState(long tgChatId) throws NotExistException {
         return chatRepo.getState(tgChatId);
     }
+
     @Override
     public boolean isChatExists(long id) {
         long chatCount = chatRepo.findAll()

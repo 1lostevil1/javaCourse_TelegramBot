@@ -9,8 +9,8 @@ import edu.java.exceptions.AlreadyExistException;
 import edu.java.exceptions.NotExistException;
 import edu.java.repository.entity.ChatEntity;
 import edu.java.repository.entity.LinkEntity;
-import edu.java.repository.impl.jpa.jpaChatRepoImpl;
-import edu.java.repository.impl.jpa.jpaLinkRepoImpl;
+import edu.java.repository.impl.jpa.JpaChatRepoImpl;
+import edu.java.repository.impl.jpa.JpaLinkRepoImpl;
 import edu.java.services.interfaces.LinkService;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-
 @AllArgsConstructor
+@SuppressWarnings("MultipleStringLiterals")
 public class JpaLinkService implements LinkService {
 
-    private jpaChatRepoImpl chatRepository;
-    private jpaLinkRepoImpl linkRepository;
+    private JpaChatRepoImpl chatRepository;
+    private JpaLinkRepoImpl linkRepository;
     private GitHandler gitHubHandler;
     private SofHandler sofHandler;
 

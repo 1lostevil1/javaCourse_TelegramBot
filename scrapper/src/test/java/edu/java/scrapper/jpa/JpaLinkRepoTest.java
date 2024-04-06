@@ -1,9 +1,7 @@
 package edu.java.scrapper.jpa;
 
-import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.entity.LinkEntity;
-import edu.java.repository.impl.jdbc.jdbcLinkRepoImpl;
-import edu.java.repository.impl.jpa.jpaLinkRepoImpl;
+import edu.java.repository.impl.jpa.JpaLinkRepoImpl;
 import edu.java.scrapper.IntegrationTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class JpaLinkRepoTest extends IntegrationTest {
 
     @Autowired
-    private jpaLinkRepoImpl linkRepository;
+    private JpaLinkRepoImpl linkRepository;
 
     static LinkEntity link;
 

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @SuppressWarnings("MagicNumber")
-public class jdbcChatRepoImpl implements ChatRepo {
+public class JdbcChatRepoImpl implements ChatRepo {
 
     @Autowired
     private JdbcClient jdbcClient;
