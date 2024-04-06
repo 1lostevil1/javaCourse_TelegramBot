@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneOffset;
 import org.springframework.jdbc.core.RowMapper;
-@SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 
+@SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 public class LinkMapper implements RowMapper<DTOLink> {
     @Override
     public DTOLink mapRow(ResultSet rs, int rowNum) throws SQLException {
