@@ -83,7 +83,7 @@ public class JpaLinkService implements LinkService {
                 link.getUrl(),
                 link.getUpdateAt(),
                 link.getCheckAt(),
-                link.getLink_type(),
+                link.getLinkType(),
                 link.getData()
             ));
         }

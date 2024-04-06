@@ -31,7 +31,7 @@ public class LinkEntity {
         this.url = url;
         this.updateAt = updatedAt;
         this.checkAt = checkAt;
-        this.link_type = type;
+        this.linkType = type;
         this.data = data;
         this.chats = chats;
     }
@@ -42,7 +42,7 @@ public class LinkEntity {
     private String url;
     private OffsetDateTime updateAt;
     private OffsetDateTime checkAt;
-    private String link_type;
+    private String linkType;
     private String data;
     @ManyToMany(mappedBy = "links")
     private Set<ChatEntity> chats = new HashSet<>();

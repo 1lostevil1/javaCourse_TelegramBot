@@ -1,11 +1,9 @@
 package edu.java.repository.mappers;
 
-import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.DTOModels.DTOjdbc.DTOState;
-import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.ZoneOffset;
+import org.springframework.jdbc.core.RowMapper;
 
 public class StateMapper implements RowMapper<DTOState> {
     @Override

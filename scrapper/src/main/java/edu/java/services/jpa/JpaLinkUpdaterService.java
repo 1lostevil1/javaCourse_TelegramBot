@@ -31,7 +31,7 @@ public class JpaLinkUpdaterService implements LinkUpdater {
             link.getUrl(),
             link.getUpdateAt(),
             link.getCheckAt(),
-            link.getLink_type(),
+            link.getLinkType(),
             link.getData()
         )).toList();
     }
