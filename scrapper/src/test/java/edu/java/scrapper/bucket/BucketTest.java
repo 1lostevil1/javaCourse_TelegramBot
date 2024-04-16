@@ -19,7 +19,7 @@ public class BucketTest extends IntegrationTest {
     private MockMvc mockMvc;
     @Value("${bucket4j.filters[0].rate-limits[0].bandwidths[0].capacity}")
     private int capacity;
-    private static final String REGISTER_REQUEST = "/tg-chat/check-reg/10";
+    private static final String REGISTER_REQUEST = "/tg-chat/ready/10";
 
     @Test
     void bucketTest() throws Exception {
