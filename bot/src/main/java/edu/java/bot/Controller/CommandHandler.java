@@ -37,8 +37,8 @@ public class CommandHandler {
             "/untrack", new Untrack()
         );
         this.actions = Map.of(
-            "ADD", new AddLink(),
-            "DEL", new DelLink()
+            ADD, new AddLink(),
+            DEL, new DelLink()
         );
     }
 

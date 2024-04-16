@@ -13,7 +13,7 @@ import reactor.util.retry.Retry;
 @ConditionalOnProperty(prefix = "app", name = "retry-config.retry-type", havingValue = "exponential")
 public class ExponentialRetryConfig {
     @Bean
-    public Retry backoff(ApplicationConfig applicationConfig){
+    public Retry backoff(ApplicationConfig applicationConfig) {
         return Retry.backoff(applicationConfig.retryConfig().attempts(), applicationConfig.retryConfig().minDelay())
             .filter(throwable -> throwable instanceof WebClientResponseException
                 && applicationConfig.retryConfig().statusCodes()
