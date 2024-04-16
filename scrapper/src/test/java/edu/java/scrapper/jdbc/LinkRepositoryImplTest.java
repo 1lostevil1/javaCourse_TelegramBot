@@ -59,7 +59,7 @@ public class LinkRepositoryImplTest extends IntegrationTest {
         assertEquals(1, linkRepository.findAll().size());
         assertEquals(
             "[DTOLink[linkId=" + linkRepository.findByUrl(link.url()).linkId() +
-                ", url=https://test, updateAt=2022-01-01T07:30Z, checkAt=2022-01-01T13:30Z, linkType=, data=]]",
+                ", url=https://test, updateAt=2022-01-01T07:30Z, checkAt=2022-01-01T10:30Z, linkType=, data=]]",
             linkRepository.findAll().toString()
         );
     }
