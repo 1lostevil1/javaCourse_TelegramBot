@@ -56,7 +56,7 @@ public class ChatRepositoryImplTest extends IntegrationTest {
         chatRepository.add(chat);
         assertEquals(1, chatRepository.findAll().size());
         assertEquals(
-            "[DTOChat[chatId=1, name=Alexey, createdAt=2022-01-01T13:30Z, state=NONE]]",
+            "[DTOChat[chatId=1, name=Alexey, createdAt=2022-01-01T10:30Z, state=NONE]]",
             chatRepository.findAll().toString()
         );
     }
