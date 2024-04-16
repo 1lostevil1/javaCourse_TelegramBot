@@ -34,7 +34,7 @@ class GitHubClientTest {
     }
 
     @Test
-    @DisplayName("Клиент работает правильно")
+    @DisplayName("Клиент работает  правильно")
     public void test1() {
         wireMockExtension.stubFor(
             WireMock.get("/repos/lostevil/test")
