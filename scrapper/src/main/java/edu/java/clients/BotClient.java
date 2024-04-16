@@ -1,13 +1,20 @@
-package edu.java.BotClient;
+package edu.java.clients;
 
 import edu.java.Request.LinkUpdate;
+import edu.java.exceptions.ManyRequestsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 public class BotClient {
+
+    @Autowired
+    private Retry retry;
     private final WebClient webClient;
 
     public BotClient(WebClient.Builder builder, String url) {
@@ -28,7 +35,9 @@ public class BotClient {
                 HttpStatusCode::is5xxServerError,
                 error -> Mono.error(new RuntimeException("Server is not responding"))
             )
-            .bodyToMono(Void.class)
-            .block();
+            .onStatus(
+                HttpStatus.TOO_MANY_REQUESTS::equals,
+                error -> Mono.error(new ManyRequestsException("Превышен лимит запросов"))
+            ).bodyToMono(Void.class).retryWhen(retry).block();
     }
 }

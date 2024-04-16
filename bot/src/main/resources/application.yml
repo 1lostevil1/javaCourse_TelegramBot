@@ -1,6 +1,15 @@
 app:
   telegram-token: 6863584041:AAEa0ZBYr8SKB0_X8ckJvnT7s5qJqjXPLUE
   base-url-scrapper: "http://localhost:8080"
+  retry-config:
+    retry-type: constant
+    attempts: 5
+    min-delay: 100
+    status-codes:
+      - 500
+      - 502
+      - 503
+      - 404
 
 spring:
   application:

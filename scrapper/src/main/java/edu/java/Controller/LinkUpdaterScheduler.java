@@ -1,7 +1,7 @@
 package edu.java.Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import edu.java.BotClient.BotClient;
+import edu.java.clients.BotClient;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.DTOModels.Github.DTOGithub;
 import edu.java.Github.GitHubData;
