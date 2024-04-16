@@ -2,10 +2,8 @@ package edu.java.bot.Command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.Response.ApiErrorResponse;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component

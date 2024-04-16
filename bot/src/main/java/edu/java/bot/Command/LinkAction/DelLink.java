@@ -11,11 +11,11 @@ public class DelLink implements Command {
     public SendMessage apply(Update update, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         String url = update.message().text();
-        scrapperClient.sendState(id,"NONE");
+        scrapperClient.sendState(id, "NONE");
         if (UrlChecker.check(update.message().text())) {
             try {
-                scrapperClient.delLink(id,url);
-                return new SendMessage(id,"Ссылка удалена из отслеживаемых");
+                scrapperClient.delLink(id, url);
+                return new SendMessage(id, "Ссылка удалена из отслеживаемых");
             } catch (Exception e) {
                 return new SendMessage(id, "Такая ссылка не отслеживалась");
             }

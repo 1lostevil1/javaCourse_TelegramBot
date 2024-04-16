@@ -7,12 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.util.retry.Retry;
+
 @Slf4j
 @Configuration
 @ConditionalOnProperty(prefix = "app", name = "retry-config.retry-type", havingValue = "constant")
 public class ConstantRetryConfig {
     @Bean
-   public Retry backoff(ApplicationConfig applicationConfig){
+    public Retry backoff(ApplicationConfig applicationConfig) {
         return Retry.fixedDelay(applicationConfig.retryConfig().attempts(), applicationConfig.retryConfig().minDelay())
             .filter(throwable -> throwable instanceof WebClientResponseException
                 && applicationConfig.retryConfig().statusCodes()

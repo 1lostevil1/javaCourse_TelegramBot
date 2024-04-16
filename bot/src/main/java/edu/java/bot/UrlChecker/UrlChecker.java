@@ -1,10 +1,7 @@
 package edu.java.bot.UrlChecker;
 
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UrlChecker {
