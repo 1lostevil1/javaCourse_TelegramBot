@@ -7,8 +7,7 @@ import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
 
 public class AddLink implements Command {
-    @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    @Override public SendMessage apply(Update update, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         if (update.message().document() != null) {
             return new SendMessage(id, "Доп контент не поддерживается");
@@ -23,9 +22,12 @@ public class AddLink implements Command {
                 return new SendMessage(id, "Такая ссылка уже отслеживается");
             }
         }
-        return new SendMessage(id, "выражение не является подходящей ссылкой ссылкой\n"
-            + "используйте ссылки форматов:\n" +
-            "1)https://github.com/name/repo\n" +
-            "2)https://stackoverflow.com/questions/111/name/\n");
+        return new SendMessage(
+            id,
+            "выражение не является подходящей ссылкой ссылкой\n"
+                + "используйте ссылки форматов:\n"
+                + "1)https://github.com/name/repo\n"
+                + "2)https://stackoverflow.com/questions/111/name/\n"
+        );
     }
 }

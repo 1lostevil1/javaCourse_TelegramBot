@@ -6,16 +6,14 @@ import java.util.regex.Pattern;
 
 public class UrlChecker {
 
-    private static final Pattern GithubRegex = Pattern.compile("^https://github\\.com/[\\w-]+/[\\w-\\.@\\:~]+$");
-    private static final Pattern SofRegex =
+    private static Pattern GithubRegex = Pattern.compile("^https://github\\.com/[\\w-]+/[\\w-\\.@\\:~]+$");
+    private static Pattern SofRegex =
         Pattern.compile("^https://stackoverflow\\.com/questions/\\d+/[\\w-\\.@\\:~]+$");
 
     public static final int STATUS_OK = 200;
 
-
     private UrlChecker() {
     }
-
 
     public static boolean check(String uri) {
         URL link;
