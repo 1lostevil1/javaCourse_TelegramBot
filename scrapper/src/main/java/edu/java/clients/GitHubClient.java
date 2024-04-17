@@ -17,6 +17,7 @@ public class GitHubClient {
     @Autowired
     private Retry retry;
     private final WebClient webClient;
+
     public GitHubClient(WebClient webClient) {
         this.webClient = webClient;
     }
