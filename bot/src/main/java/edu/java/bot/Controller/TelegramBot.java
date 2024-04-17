@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 public class TelegramBot extends com.pengrad.telegrambot.TelegramBot {
 
     private final CommandHandler handler;
+
     @Autowired
     public TelegramBot(String telegramToken, ScrapperClient scrapperClient) {
         super(telegramToken);
         this.handler = new CommandHandler(scrapperClient);
     }
-
 
     public void run() {
         this.setUpdatesListener(updates -> {

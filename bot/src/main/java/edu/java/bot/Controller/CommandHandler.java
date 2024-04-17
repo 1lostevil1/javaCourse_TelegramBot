@@ -11,10 +11,9 @@ import edu.java.bot.Command.Start;
 import edu.java.bot.Command.Track;
 import edu.java.bot.Command.Untrack;
 import edu.java.bot.ScrapperClient.ScrapperClient;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 @Component
 public class CommandHandler {
@@ -28,7 +27,6 @@ public class CommandHandler {
     public static final String ADD = "ADD";
     public static final String DEL = "DEL";
 
-
     public CommandHandler(ScrapperClient scrapperClient) {
         this.scrapperClient = scrapperClient;
         this.commands = Map.of(
@@ -39,19 +37,19 @@ public class CommandHandler {
             "/untrack", new Untrack()
         );
         this.actions = Map.of(
-            "ADD", new AddLink(),
-            "DEL", new DelLink()
+            ADD, new AddLink(),
+            DEL, new DelLink()
         );
     }
 
     public SendMessage handle(Update update) {
         Long id = update.message().chat().id();
 
-        if (!scrapperClient.isReady(id) ||  scrapperClient.getState(id).state().equals(NONE)) {
+        if (!scrapperClient.isReady(id) || scrapperClient.getState(id).state().equals(NONE)) {
             return executeCommand(update);
         } else {
             Command command = actions.get(scrapperClient.getState(id).state());
-            return command.apply(update,scrapperClient);
+            return command.apply(update, scrapperClient);
         }
     }
 
@@ -59,9 +57,11 @@ public class CommandHandler {
         Long id = update.message().chat().id();
         String message = update.message().text();
         Command command = null;
-        if(message!=null) command = commands.get(message);
+        if (message != null) {
+            command = commands.get(message);
+        }
         if (command != null) {
-            return command.apply(update,scrapperClient);
+            return command.apply(update, scrapperClient);
         }
         return new SendMessage(id, "неверная команда!");
     }

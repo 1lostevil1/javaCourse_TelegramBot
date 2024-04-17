@@ -4,14 +4,13 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 
-
 public class Untrack implements Command {
     @Override
     public SendMessage apply(Update update, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         String url = update.message().text();
         try {
-            scrapperClient.sendState(id,"DEL");
+            scrapperClient.sendState(id, "DEL");
         } catch (Exception e) {
             return new SendMessage(id, "Не пройдена регистрация");
         }

@@ -6,8 +6,6 @@ import edu.java.Request.StateRequest;
 import edu.java.Response.LinkResponse;
 import edu.java.Response.ListLinksResponse;
 import edu.java.Response.StateResponse;
-import jakarta.annotation.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -111,7 +109,7 @@ public class ScrapperClient {
             .block();
     }
 
-    public void sendState (Long chatId, String state) {
+    public void sendState(Long chatId, String state) {
         webClient.post().uri("/tg-chat/state/{id}", chatId, state)
             .accept(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(new StateRequest(state)))
@@ -128,7 +126,7 @@ public class ScrapperClient {
             .block();
     }
 
-    public StateResponse getState (Long chatId) {
+    public StateResponse getState(Long chatId) {
         return webClient.get().uri("/tg-chat/state/{id}", chatId).accept(MediaType.APPLICATION_JSON)
             .retrieve().onStatus(
                 HttpStatusCode::is4xxClientError,
@@ -141,18 +139,19 @@ public class ScrapperClient {
             .bodyToMono(StateResponse.class)
             .block();
     }
-    public boolean isReady (Long chatId) {
+
+    public boolean isReady(Long chatId) {
         return Boolean.TRUE.equals(webClient.get().uri("/tg-chat/ready/{id}", chatId).accept(MediaType.APPLICATION_JSON)
-                .retrieve().onStatus(
-                        HttpStatusCode::is4xxClientError,
-                        error -> Mono.error(new RuntimeException("Not ready"))
-                )
-                .onStatus(
-                        HttpStatusCode::is5xxServerError,
-                        error -> Mono.error(new RuntimeException("Server is not responding"))
-                )
-                .bodyToMono(boolean.class)
-                .block());
+            .retrieve().onStatus(
+                HttpStatusCode::is4xxClientError,
+                error -> Mono.error(new RuntimeException("Not ready"))
+            )
+            .onStatus(
+                HttpStatusCode::is5xxServerError,
+                error -> Mono.error(new RuntimeException("Server is not responding"))
+            )
+            .bodyToMono(boolean.class)
+            .block());
     }
 
 }

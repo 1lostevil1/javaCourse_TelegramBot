@@ -1,16 +1,13 @@
 package edu.java.bot.UrlChecker;
 
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UrlChecker {
 
-    private static final Pattern githubRegex = Pattern.compile("^https://github\\.com/[\\w-]+/[\\w-\\.@\\:~]+$");
-    private static final Pattern sofRegex =
+    private static final Pattern GithubRegex = Pattern.compile("^https://github\\.com/[\\w-]+/[\\w-\\.@\\:~]+$");
+    private static final Pattern SofRegex =
         Pattern.compile("^https://stackoverflow\\.com/questions/\\d+/[\\w-\\.@\\:~]+$");
 
     public static final int STATUS_OK = 200;
@@ -28,8 +25,8 @@ public class UrlChecker {
             urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == STATUS_OK) {
-                return (githubRegex.matcher(uri).find()
-                    || (sofRegex.matcher(uri).find()));
+                return (GithubRegex.matcher(uri).find()
+                    || (SofRegex.matcher(uri).find()));
             }
         } catch (Exception ignored) {
 
