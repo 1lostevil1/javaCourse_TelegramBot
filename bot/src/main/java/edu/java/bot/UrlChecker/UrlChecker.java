@@ -12,8 +12,10 @@ public class UrlChecker {
 
     public static final int STATUS_OK = 200;
 
+
     private UrlChecker() {
     }
+
 
     public static boolean check(String uri) {
         URL link;
