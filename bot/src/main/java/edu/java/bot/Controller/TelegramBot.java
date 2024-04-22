@@ -3,6 +3,7 @@ package edu.java.bot.Controller;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.ScrapperClient.ScrapperClient;
+import edu.java.bot.configuration.ApplicationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,8 @@ public class TelegramBot extends com.pengrad.telegrambot.TelegramBot {
     private final CommandHandler handler;
 
     @Autowired
-    public TelegramBot(String telegramToken, ScrapperClient scrapperClient) {
-        super(telegramToken);
+    public TelegramBot(ApplicationConfig applicationConfig, ScrapperClient scrapperClient) {
+        super(applicationConfig.telegramToken());
         this.handler = new CommandHandler(scrapperClient);
     }
 

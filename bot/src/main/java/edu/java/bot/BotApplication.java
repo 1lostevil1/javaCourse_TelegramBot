@@ -26,7 +26,7 @@ public class BotApplication {
 
     @PostConstruct
     public void runBot() {
-        TelegramBot bot = new TelegramBot(applicationConfig.telegramToken(), scrapperClient);
+        TelegramBot bot = new TelegramBot(applicationConfig, scrapperClient);
         bot.run();
     }
 }

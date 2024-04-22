@@ -3,6 +3,7 @@ package edu.java.bot.Controller;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.Request.LinkUpdate;
 import edu.java.Response.ApiErrorResponse;
+import edu.java.bot.Service.BotService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BotController {
 
     @Autowired
-    private TelegramBot bot;
+    private BotService bot;
 
     @Operation(summary = "Отправить обновление")
     @ApiResponses(value = {
@@ -47,7 +48,6 @@ public class BotController {
 
     @PostMapping
     public void sendUpdate(@RequestBody LinkUpdate linkUpdate) {
-        Arrays.stream(linkUpdate.tgChatIds()).parallel()
-            .forEach(id -> bot.sendUpdate(new SendMessage(id, linkUpdate.description())));
+    bot.sendUpdate(linkUpdate);
     }
 }
