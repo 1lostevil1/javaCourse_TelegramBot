@@ -11,7 +11,7 @@ public class Untrack implements Command {
         String url = update.message().text();
         try {
             scrapperClient.sendState(id, "DEL");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             return new SendMessage(id, "Не пройдена регистрация");
         }
         return new SendMessage(id, "вставьте ссылку на источник");

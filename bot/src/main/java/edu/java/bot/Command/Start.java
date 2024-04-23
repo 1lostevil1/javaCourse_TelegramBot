@@ -16,7 +16,7 @@ public class Start implements Command {
         try {
             scrapperClient.chatReg(id, userName);
             return new SendMessage(id, "Добро пожаловать, " + userName);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             return new SendMessage(id, "Повторная регистрация невозможна");
         }
     }

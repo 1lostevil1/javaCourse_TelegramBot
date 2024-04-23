@@ -6,6 +6,9 @@ import edu.java.Request.StateRequest;
 import edu.java.Response.LinkResponse;
 import edu.java.Response.ListLinksResponse;
 import edu.java.Response.StateResponse;
+import edu.java.exceptions.AlreadyExistException;
+import edu.java.exceptions.NotExistException;
+import edu.java.exceptions.RepeatedRegistrationException;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -29,7 +32,7 @@ public class ScrapperClient {
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new RuntimeException("Chat id is not found"))
+                error -> Mono.error(new RepeatedRegistrationException("Повторная регистрация невозможна"))
             )
             .onStatus(
                 HttpStatusCode::is5xxServerError,
@@ -62,7 +65,7 @@ public class ScrapperClient {
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new RuntimeException("Chat id is not found"))
+                error -> Mono.error(new NotExistException("Не пройдена регистрация"))
             )
             .onStatus(
                 HttpStatusCode::is5xxServerError,
@@ -80,7 +83,7 @@ public class ScrapperClient {
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new RuntimeException("Link is not found"))
+                error -> Mono.error(new AlreadyExistException("Такая ссылка уже отслеживается"))
             )
             .onStatus(
                 HttpStatusCode::is5xxServerError,
@@ -99,7 +102,7 @@ public class ScrapperClient {
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new RuntimeException("Link is not found"))
+                error -> Mono.error(new NotExistException("Такая ссылка не отслеживалась"))
             )
             .onStatus(
                 HttpStatusCode::is5xxServerError,
@@ -116,7 +119,7 @@ public class ScrapperClient {
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new RuntimeException("Link is not valid"))
+                error -> Mono.error(new NotExistException("Вы не авторизованы"))
             )
             .onStatus(
                 HttpStatusCode::is5xxServerError,
@@ -130,7 +133,7 @@ public class ScrapperClient {
         return webClient.get().uri("/tg-chat/state/{id}", chatId).accept(MediaType.APPLICATION_JSON)
             .retrieve().onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new RuntimeException("Link is not valid"))
+                error -> Mono.error(new  NotExistException(""))
             )
             .onStatus(
                 HttpStatusCode::is5xxServerError,

@@ -21,7 +21,7 @@ public class List implements Command {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             return new SendMessage(id, "Не пройдена регистрация");
         }
         return new SendMessage(id, resultLinks.toString());

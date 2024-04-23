@@ -11,7 +11,7 @@ public class Track implements Command {
         Long id = update.message().chat().id();
         try {
             scrapperClient.sendState(id, "ADD");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             return new SendMessage(id, "Вы не авторизованы");
         }
         return new SendMessage(id, "Вставьте ссылку на источник");

@@ -16,7 +16,7 @@ public class DelLink implements Command {
             try {
                 scrapperClient.delLink(id, url);
                 return new SendMessage(id, "Ссылка удалена из отслеживаемых");
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 return new SendMessage(id, "Такая ссылка не отслеживалась");
             }
         }

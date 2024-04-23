@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Command.Command;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 public class AddLink implements Command {
     @Override public SendMessage apply(Update update, ScrapperClient scrapperClient) {
@@ -18,7 +19,7 @@ public class AddLink implements Command {
             try {
                 scrapperClient.addLink(id, url);
                 return new SendMessage(id, "Ссылка добавлена в отслеживаемые");
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 return new SendMessage(id, "Такая ссылка уже отслеживается");
             }
         }

@@ -14,10 +14,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class BotApplication {
 
     @Autowired
-    ApplicationConfig applicationConfig;
+    private ApplicationConfig applicationConfig;
 
     @Autowired
-    ScrapperClient scrapperClient;
+    private ScrapperClient scrapperClient;
 
     public static void main(String[] args) {
         SpringApplication.run(BotApplication.class, args);
@@ -26,7 +26,7 @@ public class BotApplication {
 
     @PostConstruct
     public void runBot() {
-        TelegramBot bot = new TelegramBot(applicationConfig.telegramToken(), scrapperClient);
+        TelegramBot bot = new TelegramBot(applicationConfig, scrapperClient);
         bot.run();
     }
 }
