@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Command.Command;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
-import org.springframework.web.reactive.function.client.WebClientException;
 
 public class AddLink implements Command {
     @Override public SendMessage apply(Update update, ScrapperClient scrapperClient) {
