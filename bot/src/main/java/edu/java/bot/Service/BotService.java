@@ -3,8 +3,8 @@ package edu.java.bot.Service;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.Request.LinkUpdate;
 import edu.java.bot.Controller.TelegramBot;
-import org.springframework.stereotype.Service;
 import java.util.Arrays;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BotService {

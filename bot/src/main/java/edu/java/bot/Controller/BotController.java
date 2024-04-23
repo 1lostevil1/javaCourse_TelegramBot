@@ -1,6 +1,5 @@
 package edu.java.bot.Controller;
 
-import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.Request.LinkUpdate;
 import edu.java.Response.ApiErrorResponse;
 import edu.java.bot.Service.BotService;
@@ -9,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +46,6 @@ public class BotController {
 
     @PostMapping
     public void sendUpdate(@RequestBody LinkUpdate linkUpdate) {
-    bot.sendUpdate(linkUpdate);
+        bot.sendUpdate(linkUpdate);
     }
 }

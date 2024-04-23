@@ -24,8 +24,8 @@ public class AddLink implements Command {
             }
         }
         return new SendMessage(id, "выражение не является подходящей ссылкой ссылкой\n"
-            + "используйте ссылки форматов:\n" +
-            "1)https://github.com/name/repo\n" +
-            "2)https://stackoverflow.com/questions/111/name/\n");
+            + "используйте ссылки форматов:\n"
+            + "1)https://github.com/name/repo\n"
+            + "2)https://stackoverflow.com/questions/111/name/\n");
     }
 }
