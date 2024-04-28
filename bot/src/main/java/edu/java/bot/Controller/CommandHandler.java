@@ -45,12 +45,12 @@ public class CommandHandler {
     public SendMessage handle(Update update) {
         Long id = update.message().chat().id();
         boolean isReady = scrapperClient.isReady(id);
-        String state = isReady? scrapperClient.getState(id).state() : NONE;
+        String state = isReady ? scrapperClient.getState(id).state() : NONE;
         if (!isReady || state.equals(NONE)) {
             return executeCommand(update, isReady);
         } else {
             Command command = actions.get(state);
-            return command.apply(update,isReady, scrapperClient);
+            return command.apply(update, isReady, scrapperClient);
         }
     }
 
@@ -62,7 +62,7 @@ public class CommandHandler {
             command = commands.get(message);
         }
         if (command != null) {
-            return command.apply(update,isReady, scrapperClient);
+            return command.apply(update, isReady, scrapperClient);
         }
         return new SendMessage(id, "неверная команда!");
     }
