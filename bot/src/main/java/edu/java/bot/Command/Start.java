@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class Start implements Command {
     @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         String userName = update.message().chat().username();
-        try {
+        if (!isReady) {
             scrapperClient.chatReg(id, userName);
             return new SendMessage(id, "Добро пожаловать, " + userName);
-        } catch (RuntimeException e) {
+        } else {
             return new SendMessage(id, "Повторная регистрация невозможна");
         }
     }

@@ -6,12 +6,12 @@ import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public class Untrack implements Command {
     @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         String url = update.message().text();
-        try {
+        if (isReady) {
             scrapperClient.sendState(id, "DEL");
-        } catch (RuntimeException e) {
+        } else {
             return new SendMessage(id, "Не пройдена регистрация");
         }
         return new SendMessage(id, "вставьте ссылку на источник");

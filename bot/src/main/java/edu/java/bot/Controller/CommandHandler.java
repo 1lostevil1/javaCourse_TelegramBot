@@ -44,16 +44,17 @@ public class CommandHandler {
 
     public SendMessage handle(Update update) {
         Long id = update.message().chat().id();
-
-        if (!scrapperClient.isReady(id) || scrapperClient.getState(id).state().equals(NONE)) {
-            return executeCommand(update);
+        boolean isReady = scrapperClient.isReady(id);
+        String state = isReady? scrapperClient.getState(id).state() : NONE;
+        if (!isReady || state.equals(NONE)) {
+            return executeCommand(update, isReady);
         } else {
-            Command command = actions.get(scrapperClient.getState(id).state());
-            return command.apply(update, scrapperClient);
+            Command command = actions.get(state);
+            return command.apply(update,isReady, scrapperClient);
         }
     }
 
-    public SendMessage executeCommand(Update update) {
+    public SendMessage executeCommand(Update update, boolean isReady) {
         Long id = update.message().chat().id();
         String message = update.message().text();
         Command command = null;
@@ -61,7 +62,7 @@ public class CommandHandler {
             command = commands.get(message);
         }
         if (command != null) {
-            return command.apply(update, scrapperClient);
+            return command.apply(update,isReady, scrapperClient);
         }
         return new SendMessage(id, "неверная команда!");
     }

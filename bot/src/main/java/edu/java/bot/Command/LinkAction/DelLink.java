@@ -8,7 +8,7 @@ import edu.java.bot.UrlChecker.UrlChecker;
 
 public class DelLink implements Command {
     @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         String url = update.message().text();
         scrapperClient.sendState(id, "NONE");

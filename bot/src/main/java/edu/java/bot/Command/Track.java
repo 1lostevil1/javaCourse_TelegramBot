@@ -6,12 +6,12 @@ import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public class Track implements Command {
     @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
 
         Long id = update.message().chat().id();
-        try {
+        if (isReady) {
             scrapperClient.sendState(id, "ADD");
-        } catch (RuntimeException e) {
+        } else {
             return new SendMessage(id, "Вы не авторизованы");
         }
         return new SendMessage(id, "Вставьте ссылку на источник");

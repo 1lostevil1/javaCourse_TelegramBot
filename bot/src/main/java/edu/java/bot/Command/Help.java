@@ -6,7 +6,7 @@ import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public class Help implements Command {
     @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         return new SendMessage(
             update.message().chat().id(),
             "/help -- вывести окно с командами\n"

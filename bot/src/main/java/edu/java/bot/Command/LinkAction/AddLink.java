@@ -7,7 +7,7 @@ import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
 
 public class AddLink implements Command {
-    @Override public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    @Override public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         if (update.message().document() != null) {
             return new SendMessage(id, "Доп контент не поддерживается");

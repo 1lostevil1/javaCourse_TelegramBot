@@ -5,5 +5,5 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public interface Command {
-    SendMessage apply(Update update, ScrapperClient scrapperClient);
+    SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient);
 }

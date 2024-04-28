@@ -7,11 +7,11 @@ import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public class List implements Command {
     @Override
-    public SendMessage apply(Update update, ScrapperClient scrapperClient) {
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
         StringBuilder resultLinks = new StringBuilder();
 
-        try {
+        if (isReady) {
             ListLinksResponse links = scrapperClient.getLinks(id);
             if (links.size() == 0) {
                 resultLinks.append("Отслеживаемых ссылок нет!");
@@ -21,7 +21,7 @@ public class List implements Command {
                 }
             }
 
-        } catch (RuntimeException e) {
+        } else {
             return new SendMessage(id, "Не пройдена регистрация");
         }
         return new SendMessage(id, resultLinks.toString());
