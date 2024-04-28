@@ -33,7 +33,7 @@ jobs:
 
       - name: build and publish the docker image
         run: |
-          docker build --tag ghcr.io/1lostevil1/bot:latest -f ${{ github.workspace }}/K0lokolchikBot/Dockerfile .
+          docker build --tag ghcr.io/1lostevil1/bot:latest -f ${{ github.workspace }}/bot/Dockerfile .
           docker push ghcr.io/1lostevil1/bot:latest
       - id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
