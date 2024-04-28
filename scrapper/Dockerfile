@@ -1,5 +1,5 @@
 FROM openjdk:21
-LABEL authors="lostevil"
+LABEL authors="1lostevil1"
 
 COPY ./scrapper/target/scrapper.jar scrapper.jar
 
