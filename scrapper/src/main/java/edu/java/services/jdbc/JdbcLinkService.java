@@ -68,10 +68,11 @@ public class JdbcLinkService implements LinkService {
             List<DTOChatLink> chats = chatLinkRepository.findByLinkId(link.linkId());
             if (linkRepository.findByUrl(url).linkId().equals(link.linkId())) {
                 isLinkExist = true;
-            }
-            chatLinkRepository.remove(new DTOChatLink(chatId, link.linkId()));
-            if (chats.size() == 1) {
-                linkRepository.remove(new DTOLink(link.linkId(), null, null, null, null, null));
+
+                chatLinkRepository.remove(new DTOChatLink(chatId, link.linkId()));
+                if (chats.size() == 1) {
+                    linkRepository.remove(new DTOLink(link.linkId(), null, null, null, null, null));
+                }
             }
         }
         if (!isLinkExist) {
