@@ -30,7 +30,7 @@ public class BotApplication {
 
     @PostConstruct
     public void runBot() {
-        TelegramBot bot = new TelegramBot(applicationConfig, scrapperClient,meterRegistry);
+        TelegramBot bot = new TelegramBot(applicationConfig, scrapperClient, meterRegistry);
         bot.run();
     }
 }
