@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Command.Command;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
+import java.util.Arrays;
 
 public class DelLink implements Command {
     @Override
@@ -13,10 +14,10 @@ public class DelLink implements Command {
         String url = update.message().text();
         scrapperClient.sendState(id, "NONE");
         if (UrlChecker.check(update.message().text())) {
-            try {
+            if (Arrays.stream(scrapperClient.getLinks(id).links()).anyMatch(link -> link.url().equals(url))) {
                 scrapperClient.delLink(id, url);
                 return new SendMessage(id, "Ссылка удалена из отслеживаемых");
-            } catch (RuntimeException e) {
+            } else {
                 return new SendMessage(id, "Такая ссылка не отслеживалась");
             }
         }

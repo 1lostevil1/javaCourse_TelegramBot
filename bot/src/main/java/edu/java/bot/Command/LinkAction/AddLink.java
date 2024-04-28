@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Command.Command;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
+import java.util.Arrays;
 
 public class AddLink implements Command {
     @Override public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
@@ -15,10 +16,10 @@ public class AddLink implements Command {
         String url = update.message().text();
         scrapperClient.sendState(id, "NONE");
         if (UrlChecker.check(url)) {
-            try {
+            if (Arrays.stream(scrapperClient.getLinks(id).links()).noneMatch(link -> link.url().equals(url))) {
                 scrapperClient.addLink(id, url);
                 return new SendMessage(id, "Ссылка добавлена в отслеживаемые");
-            } catch (RuntimeException e) {
+            } else {
                 return new SendMessage(id, "Такая ссылка уже отслеживается");
             }
         }
