@@ -33,8 +33,8 @@ jobs:
 
       - name: build and publish the docker image
         run: |
-          docker build --tag ghcr.io/aleckbb/bot:latest -f ${{ github.workspace }}/bot/Dockerfile .
-          docker push ghcr.io/aleckbb/bot:latest
+          docker build --tag ghcr.io/1lostevil1/K0lokolchikBot:latest -f ${{ github.workspace }}/K0lokolchikBot/Dockerfile .
+          docker push ghcr.io/1lostevil1/K0lokolchikBot:latest
       - id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         if: ( github.event_name != 'workflow_dispatch' )

@@ -34,8 +34,8 @@ jobs:
 
       - name: build and publish the docker image
         run: |
-          docker build --tag ghcr.io/aleckbb/scrapper:latest -f ${{ github.workspace }}/scrapper/Dockerfile .
-          docker push ghcr.io/aleckbb/scrapper:latest
+          docker build --tag ghcr.io/1lostevil1/scrapper:latest -f ${{ github.workspace }}/scrapper/Dockerfile .
+          docker push ghcr.io/1lostevil1/scrapper:latest
 
       - id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
