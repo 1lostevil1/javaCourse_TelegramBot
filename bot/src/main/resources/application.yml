@@ -22,6 +22,36 @@ spring:
 
   jackson:
     time-zone: UTC
+management:
+  endpoints:
+    web:
+      base-path: "/"
+      exposure:
+        include: "health,info,prometheus"
+      path-mapping:
+        health: "health"
+        info: "info"
+        prometheus: "metrics"
+    jmx:
+      exposure:
+        include: "health,info,prometheus"
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+    prometheus:
+      enabled: true
+  server:
+    port: 8091
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 
 server:
   port: 8090
