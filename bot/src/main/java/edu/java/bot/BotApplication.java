@@ -3,6 +3,7 @@ package edu.java.bot;
 import edu.java.bot.Controller.TelegramBot;
 import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.configuration.ApplicationConfig;
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,9 @@ public class BotApplication {
     @Autowired
     ScrapperClient scrapperClient;
 
+    @Autowired
+    CompositeMeterRegistry meterRegistry;
+
     public static void main(String[] args) {
         SpringApplication.run(BotApplication.class, args);
 
@@ -26,7 +30,7 @@ public class BotApplication {
 
     @PostConstruct
     public void runBot() {
-        TelegramBot bot = new TelegramBot(applicationConfig, scrapperClient);
+        TelegramBot bot = new TelegramBot(applicationConfig, scrapperClient, meterRegistry);
         bot.run();
     }
 }
