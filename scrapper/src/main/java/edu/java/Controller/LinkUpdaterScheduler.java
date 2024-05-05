@@ -6,9 +6,10 @@ import edu.java.DTOModels.Github.DTOGithub;
 import edu.java.Github.GitHubData;
 import edu.java.Handlers.GitHandler;
 import edu.java.Handlers.SofHandler;
+import edu.java.Request.LinkUpdate;
 import edu.java.StackOverflow.StackOveflowData;
 import edu.java.StackOverflow.StackOverflow;
-import edu.java.clients.BotClient;
+import edu.java.services.interfaces.LinkUpdateService;
 import edu.java.services.interfaces.LinkUpdater;
 import io.swagger.v3.core.util.Json;
 import java.time.OffsetDateTime;
@@ -27,7 +28,7 @@ public class LinkUpdaterScheduler {
     @Autowired
     private LinkUpdater linkUpdater;
     @Autowired
-    private BotClient botClient;
+    private LinkUpdateService linkUpdateService;
     @Autowired
     private SofHandler sofHandler;
     @Autowired
@@ -52,11 +53,12 @@ public class LinkUpdaterScheduler {
                 }
             }
             if (!description.isEmpty()) {
-                botClient.sendUpdate(
-                    link.linkId(),
-                    link.url(),
-                    description,
-                    linkUpdater.allChatIdsByLinkId(link.linkId())
+                linkUpdateService.sendUpdate(new LinkUpdate(
+                        link.linkId(),
+                        link.url(),
+                        description,
+                        linkUpdater.allChatIdsByLinkId(link.linkId())
+                    )
 
                 );
 

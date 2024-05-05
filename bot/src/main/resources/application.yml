@@ -2,7 +2,7 @@ app:
   telegram-token: 6863584041:AAEa0ZBYr8SKB0_X8ckJvnT7s5qJqjXPLUE
   base-url-scrapper: "http://localhost:8080"
   retry-config:
-    retry-type: constant
+    retry-type: linear
     attempts: 5
     min-delay: 100
     status-codes:
@@ -10,6 +10,11 @@ app:
       - 502
       - 503
       - 404
+  kafka:
+    bootstrap-server: localhost:9092, localhost:9093, localhost:9094
+    topic-name: update-messages-topic
+    partitions-count: 1
+    replication-count: 3
 
 spring:
   application:
@@ -17,6 +22,36 @@ spring:
 
   jackson:
     time-zone: UTC
+management:
+  endpoints:
+    web:
+      base-path: "/"
+      exposure:
+        include: "health,info,prometheus"
+      path-mapping:
+        health: "health"
+        info: "info"
+        prometheus: "metrics"
+    jmx:
+      exposure:
+        include: "health,info,prometheus"
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+    prometheus:
+      enabled: true
+  server:
+    port: 8091
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 
 server:
   port: 8090

@@ -2,6 +2,7 @@ package edu.java.clients;
 
 import edu.java.Request.LinkUpdate;
 import edu.java.exceptions.ManyRequestsException;
+import edu.java.services.interfaces.LinkUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -11,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
-public class BotClient {
+public class BotClient implements LinkUpdateService {
 
     @Autowired
     private Retry retry;
@@ -21,11 +22,12 @@ public class BotClient {
         this.webClient = builder.baseUrl(url).build();
     }
 
-    public void sendUpdate(long id, String url, String description, long[] tgChatIds) {
+    @Override
+    public void sendUpdate(LinkUpdate linkUpdate) {
         webClient.post()
             .uri("/updates")
             .contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(new LinkUpdate(id, url, description, tgChatIds)))
+            .body(BodyInserters.fromValue(linkUpdate))
             .retrieve()
             .onStatus(
                 HttpStatusCode::is4xxClientError,

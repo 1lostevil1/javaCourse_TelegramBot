@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public class UrlChecker {
 
-    private static final Pattern GithubRegex = Pattern.compile("^https://github\\.com/[\\w-]+/[\\w-\\.@\\:~]+$");
-    private static final Pattern SofRegex =
+    private static final Pattern GIT = Pattern.compile("^https://github\\.com/[\\w-]+/[\\w-\\.@\\:~]+$");
+    private static final Pattern SOF =
         Pattern.compile("^https://stackoverflow\\.com/questions/\\d+/[\\w-\\.@\\:~]+$");
 
     public static final int STATUS_OK = 200;
@@ -25,8 +25,8 @@ public class UrlChecker {
             urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == STATUS_OK) {
-                return (GithubRegex.matcher(uri).find()
-                    || (SofRegex.matcher(uri).find()));
+                return (GIT.matcher(uri).find()
+                    || (SOF.matcher(uri).find()));
             }
         } catch (Exception ignored) {
 
