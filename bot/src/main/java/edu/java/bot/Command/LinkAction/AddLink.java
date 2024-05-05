@@ -3,22 +3,32 @@ package edu.java.bot.Command.LinkAction;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.Command.Command;
+import edu.java.bot.ScrapperClient.ScrapperClient;
 import edu.java.bot.UrlChecker.UrlChecker;
-import edu.java.bot.Users.State;
-import edu.java.bot.Users.Users;
+import java.util.Arrays;
 
 public class AddLink implements Command {
-    @Override
-    public SendMessage apply(Update update, Users users) {
+    @Override public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
         Long id = update.message().chat().id();
-        users.usersMap.get(id).state = State.NONE;
-        if (UrlChecker.check(update.message().text())) {
-            if (users.usersMap.get(id).findUrl(update.message().text())) {
-                return new SendMessage(id, "такая ссылка уже отслеживается");
-            }
-            users.usersMap.get(id).addUrl(update.message().text());
-            return new SendMessage(id, "ссылка отслеживается");
+        if (update.message().document() != null) {
+            return new SendMessage(id, "Доп контент не поддерживается");
         }
-        return new SendMessage(id, "выражение не является ссылкой");
+        String url = update.message().text();
+        scrapperClient.sendState(id, "NONE");
+        if (UrlChecker.check(url)) {
+            if (Arrays.stream(scrapperClient.getLinks(id).links()).noneMatch(link -> link.url().equals(url))) {
+                scrapperClient.addLink(id, url);
+                return new SendMessage(id, "Ссылка добавлена в отслеживаемые");
+            } else {
+                return new SendMessage(id, "Такая ссылка уже отслеживается");
+            }
+        }
+        return new SendMessage(
+            id,
+            "выражение не является подходящей ссылкой ссылкой\n"
+                + "используйте ссылки форматов:\n"
+                + "1)https://github.com/name/repo\n"
+                + "2)https://stackoverflow.com/questions/111/name/\n"
+        );
     }
 }

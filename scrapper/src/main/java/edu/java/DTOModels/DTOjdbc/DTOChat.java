@@ -5,6 +5,8 @@ import java.time.OffsetDateTime;
 public record DTOChat(
     Long chatId,
     String name,
-    OffsetDateTime createdAt
+    OffsetDateTime createdAt,
+
+    String state
 ) {
 }

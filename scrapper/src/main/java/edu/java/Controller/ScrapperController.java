@@ -3,9 +3,11 @@ package edu.java.Controller;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.Request.AddLinkRequest;
 import edu.java.Request.RemoveLinkRequest;
+import edu.java.Request.StateRequest;
 import edu.java.Response.ApiErrorResponse;
 import edu.java.Response.LinkResponse;
 import edu.java.Response.ListLinksResponse;
+import edu.java.Response.StateResponse;
 import edu.java.exceptions.AlreadyExistException;
 import edu.java.exceptions.NotExistException;
 import edu.java.exceptions.RepeatedRegistrationException;
@@ -14,26 +16,29 @@ import edu.java.services.interfaces.LinkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SuppressWarnings("RegexpSinglelineJava")
 @RequiredArgsConstructor
 @RestController
 public class ScrapperController {
-
-    private final ChatService chatService;
+    @Autowired
     private final LinkService linkService;
+    @Autowired
+    private final ChatService chatService;
 
     @Operation(summary = "Зарегистрировать чат")
     @ApiResponses(value = {
@@ -52,7 +57,7 @@ public class ScrapperController {
         )
     })
     @PostMapping("/tg-chat/{id}")
-    public void chatReg(@PathVariable long id, String username) throws RepeatedRegistrationException {
+    public void chatReg(@PathVariable long id, @RequestBody String username) throws RepeatedRegistrationException {
         chatService.register(id, username);
     }
 
@@ -107,9 +112,6 @@ public class ScrapperController {
     @GetMapping("/links")
     public ListLinksResponse getLinks(@RequestHeader(name = "Tg-Chat-Id") long id) throws NotExistException {
         List<DTOLink> links = linkService.listAll(id);
-        if (links.isEmpty()) {
-            throw new NotExistException("Вы не отслеживаете ни одной ссылки!");
-        }
         LinkResponse[] res = new LinkResponse[links.size()];
         int i = 0;
         for (DTOLink link : links) {
@@ -141,10 +143,9 @@ public class ScrapperController {
     @PostMapping("/links")
     public LinkResponse addLink(
         @RequestHeader(name = "Tg-Chat-Id") long id,
-        @RequestParam String username,
-        AddLinkRequest addLinkRequest
-    ) throws AlreadyExistException {
-        linkService.add(id, addLinkRequest.link(), username);
+        @RequestBody AddLinkRequest addLinkRequest
+    ) throws AlreadyExistException, NotExistException {
+        linkService.add(id, addLinkRequest.link());
         return new LinkResponse(id, addLinkRequest.link());
     }
 
@@ -178,10 +179,73 @@ public class ScrapperController {
     @DeleteMapping("/links")
     public LinkResponse delLink(
         @RequestHeader(name = "Tg-Chat-Id") long id,
-        @RequestBody(required = true) RemoveLinkRequest removeLinkRequest
+        @RequestBody RemoveLinkRequest removeLinkRequest
     ) throws NotExistException {
         linkService.remove(id, removeLinkRequest.link());
         return new LinkResponse(id, removeLinkRequest.link());
+    }
+
+    @Operation(summary = "Обновить состояние")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Статус успешно обновлен",
+            content = @Content()
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Чат не существует",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ApiErrorResponse.class)
+            )
+        )
+    })
+    @PostMapping("/tg-chat/state/{id}")
+    public void setState(@PathVariable @Valid @Positive Long id, @RequestBody StateRequest stateRequest) {
+        chatService.setState(id, stateRequest.state());
+    }
+
+    @Operation(summary = "Получить состояние")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Статус успешно получен",
+            content = @Content()
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Чат не существует",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ApiErrorResponse.class)
+            )
+        )
+    })
+    @GetMapping("/tg-chat/state/{id}")
+    public StateResponse getState(@PathVariable @Valid @Positive Long id) throws NotExistException {
+        return new StateResponse(id, chatService.getState(id).state());
+    }
+
+    @Operation(summary = "Получить готовность")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "готов",
+            content = @Content()
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Чат не существует",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ApiErrorResponse.class)
+            )
+        )
+    })
+    @GetMapping("/tg-chat/ready/{id}")
+    public boolean getReady(@PathVariable @Valid @Positive Long id) {
+        return chatService.isChatExists(id);
     }
 }
 

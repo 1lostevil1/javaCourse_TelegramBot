@@ -1,6 +1,5 @@
 package edu.java.services.jdbc;
 
-import edu.java.DTOModels.DTOjdbc.DTOChat;
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.DTOModels.Github.DTOGithub;
@@ -9,37 +8,31 @@ import edu.java.Handlers.SofHandler;
 import edu.java.StackOverflow.StackOverflow;
 import edu.java.exceptions.AlreadyExistException;
 import edu.java.exceptions.NotExistException;
-import edu.java.repository.impl.ChatLinkRepoImpl;
-import edu.java.repository.impl.ChatRepoImpl;
-import edu.java.repository.impl.LinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcLinkRepoImpl;
 import edu.java.services.interfaces.LinkService;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
+@AllArgsConstructor
 @SuppressWarnings("MultipleStringLiterals")
 public class JdbcLinkService implements LinkService {
 
-    @Autowired
-    private ChatRepoImpl chatRepository;
-    @Autowired
-    private LinkRepoImpl linkRepository;
-    @Autowired
-    private ChatLinkRepoImpl chatLinkRepository;
-    @Autowired
+    private JdbcChatRepoImpl chatRepository;
+    private JdbcLinkRepoImpl linkRepository;
+    private JdbcChatLinkRepoImpl chatLinkRepository;
     private GitHandler gitHubHandler;
-    @Autowired
     private SofHandler sofHandler;
 
     @Override
-    public void add(long chatId, String url, String username) throws AlreadyExistException {
+    public void add(long chatId, String url) throws AlreadyExistException, NotExistException {
         if (!isChatExists(chatId)) {
-            chatRepository.add(new DTOChat(chatId, username, OffsetDateTime.now()));
+            throw new NotExistException("Не пройдена регистрация");
         }
 
         DTOLink link = linkRepository.findByUrl(url);
@@ -63,36 +56,54 @@ public class JdbcLinkService implements LinkService {
 
     @Override
     public void remove(long chatId, String url) throws NotExistException {
-        if (linkRepository.findByUrl(url) == null) {
-            throw new NotExistException("Такой ссылки не отслеживается");
+        if (!isChatExists(chatId)) {
+            throw new NotExistException("Не пройдена регистрация");
         }
         List<DTOChatLink> links = chatLinkRepository.findByChatId(chatId);
+        if (links.isEmpty()) {
+            throw new NotExistException("Список ссылок пуст");
+        }
         boolean isLinkExist = false;
         for (DTOChatLink link : links) {
             List<DTOChatLink> chats = chatLinkRepository.findByLinkId(link.linkId());
             if (linkRepository.findByUrl(url).linkId().equals(link.linkId())) {
                 isLinkExist = true;
-            }
-            chatLinkRepository.remove(new DTOChatLink(chatId, link.linkId()));
-            if (links.size() == 1) {
-                linkRepository.remove(new DTOLink(link.linkId(), null, null, null, null, null));
+
+                chatLinkRepository.remove(new DTOChatLink(chatId, link.linkId()));
+                if (chats.size() == 1) {
+                    linkRepository.remove(new DTOLink(link.linkId(), null, null, null, null, null));
+                }
             }
         }
         if (!isLinkExist) {
-            throw new NotExistException("Такой ссылки не отслеживается");
+            throw new NotExistException("Такая ссылка не отслеживается");
         }
     }
 
     @Override
-    public List<DTOLink> listAll(long chatId) {
-        return chatLinkRepository
-            .findByChatId(chatId)
+    public List<DTOLink> listAll(long chatId) throws NotExistException {
+        if (!isChatExists(chatId)) {
+            throw new NotExistException("Не пройдена регистрация");
+        }
+        return chatLinkRepository.findByChatId(chatId)
             .stream()
-            .map(chatLink -> linkRepository.getLink(chatLink.linkId())).collect(Collectors.toList());
+            .map(DTOChatLink::linkId)
+            .map(linkId -> {
+                List<DTOLink> links = linkRepository.findAll();
+                for (DTOLink link : links) {
+                    if (linkId.equals(link.linkId())) {
+                        return link;
+                    }
+                }
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .toList();
 
     }
 
-    private boolean isChatExists(long id) {
+    @Override
+    public boolean isChatExists(long id) {
         long chatCount = chatRepository.findAll()
             .stream()
             .filter(c -> c.chatId() == id)
@@ -101,7 +112,8 @@ public class JdbcLinkService implements LinkService {
         return chatCount == 1;
     }
 
-    private String getType(String url) {
+    @Override
+    public String getType(String url) {
         if (url.contains("github.com")) {
             return "github";
         } else if (url.contains("stackoverflow.com")) {
@@ -119,6 +131,7 @@ public class JdbcLinkService implements LinkService {
         return false;
     }
 
+    @Override
     public Pair<String, OffsetDateTime> getData(String url) {
         OffsetDateTime updatedAt;
         String type = getType(url);

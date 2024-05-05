@@ -2,19 +2,22 @@ package edu.java.bot.Command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.Users.User;
-import edu.java.bot.Users.Users;
+import edu.java.bot.ScrapperClient.ScrapperClient;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@AllArgsConstructor
 public class Start implements Command {
-
     @Override
-    public SendMessage apply(Update update, Users users) {
-        User user = new User(update.message().chat().username(), update.message().chat().id());
-        if (users.find(user.getId())) {
-            return new SendMessage(update.message().chat().id(), "Вы уже зарегистрированы");
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
+        Long id = update.message().chat().id();
+        String userName = update.message().chat().username();
+        if (!isReady) {
+            scrapperClient.chatReg(id, userName);
+            return new SendMessage(id, "Добро пожаловать, " + userName);
         } else {
-            users.usersMap.put(user.getId(), user);
-            return new SendMessage(update.message().chat().id(), "Добро пожаловать, заюш");
+            return new SendMessage(id, "Повторная регистрация невозможна");
         }
     }
 }

@@ -2,19 +2,19 @@ package edu.java.bot.Command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.Users.State;
-import edu.java.bot.Users.User;
-import edu.java.bot.Users.Users;
+import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public class Track implements Command {
     @Override
-    public SendMessage apply(Update update, Users users) {
-        User user = new User(update.message().chat().username(), update.message().chat().id());
-        if (users.find(user.getId())) {
-            users.usersMap.get(user.getId()).state = State.ADD_LINK;
-            return new SendMessage(update.message().chat().id(), "вставьте ссылку на источник");
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
+
+        Long id = update.message().chat().id();
+        if (isReady) {
+            scrapperClient.sendState(id, "ADD");
         } else {
-            return new SendMessage(update.message().chat().id(), "вы не зарегистрированы");
+            return new SendMessage(id, "Вы не авторизованы");
         }
+        return new SendMessage(id, "Вставьте ссылку на источник");
+
     }
 }

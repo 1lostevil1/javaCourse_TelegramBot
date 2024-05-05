@@ -70,7 +70,7 @@ public class LinkUpdaterScheduler {
         try {
             StackOveflowData sofData = Json.mapper().readValue(link.data(), StackOveflowData.class);
             StackOverflow.Question question = stackOverflow.items().getFirst();
-            if (question.lastActivityDate().plusHours(3).isAfter(link.updateAt())
+            if (question.lastActivityDate().isAfter(link.updateAt())
                 || (!sofData.isAnswered() && question.isAnswered())) {
                 linkUpdater.update(link.linkId(), question.lastActivityDate(), sofHandler.getData(stackOverflow));
                 description.append("В вопросе \"").append(question.title()).append("\" по ссылке ")
@@ -92,7 +92,7 @@ public class LinkUpdaterScheduler {
         DTOGithub gitHub = gitHubHandler.getInfo(link.url());
         try {
             GitHubData gitHubData = Json.mapper().readValue(link.data(), GitHubData.class);
-            if (gitHub.repository().pushedTime().plusHours(3).isAfter(link.updateAt())) {
+            if (gitHub.repository().pushedTime().isAfter(link.updateAt())) {
                 linkUpdater.update(link.linkId(), gitHub.repository().pushedTime(), gitHubHandler.getData(gitHub));
                 description.append("В репозитории ").append(gitHub.repository().repoName()).append(" по ссылке ")
                     .append(link.url());

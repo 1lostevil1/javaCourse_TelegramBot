@@ -10,16 +10,25 @@ import edu.java.bot.Command.List;
 import edu.java.bot.Command.Start;
 import edu.java.bot.Command.Track;
 import edu.java.bot.Command.Untrack;
-import edu.java.bot.Users.State;
-import edu.java.bot.Users.Users;
+import edu.java.bot.ScrapperClient.ScrapperClient;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CommandHandler {
 
+    @Autowired
+    private ScrapperClient scrapperClient;
     private Map<String, Command> commands;
-    private Map<State, Command> actions;
+    private Map<String, Command> actions;
 
-    public CommandHandler() {
+    public static final String NONE = "NONE";
+    public static final String ADD = "ADD";
+    public static final String DEL = "DEL";
+
+    public CommandHandler(ScrapperClient scrapperClient) {
+        this.scrapperClient = scrapperClient;
         this.commands = Map.of(
             "/start", new Start(),
             "/help", new Help(),
@@ -28,29 +37,34 @@ public class CommandHandler {
             "/untrack", new Untrack()
         );
         this.actions = Map.of(
-            State.ADD_LINK, new AddLink(),
-            State.DEL_LINK, new DelLink()
+            ADD, new AddLink(),
+            DEL, new DelLink()
         );
     }
 
-    public SendMessage handle(Update update, Users users) {
+    public SendMessage handle(Update update) {
         Long id = update.message().chat().id();
-        if (!users.find(id) || users.usersMap.get(id).state.equals(State.NONE)) {
-            return executeCommand(update, users);
+        boolean isReady = scrapperClient.isReady(id);
+        String state = isReady ? scrapperClient.getState(id).state() : NONE;
+        if (!isReady || state.equals(NONE)) {
+            return executeCommand(update, isReady);
         } else {
-            Command command = actions.get(users.usersMap.get(id).state);
-            return command.apply(update, users);
+            Command command = actions.get(state);
+            return command.apply(update, isReady, scrapperClient);
         }
     }
 
-    public SendMessage executeCommand(Update update, Users users) {
+    public SendMessage executeCommand(Update update, boolean isReady) {
         Long id = update.message().chat().id();
         String message = update.message().text();
-        Command command = commands.get(message);
-        if (command != null) {
-            return command.apply(update, users);
+        Command command = null;
+        if (message != null) {
+            command = commands.get(message);
         }
-        return new SendMessage(id, "неверная команда");
+        if (command != null) {
+            return command.apply(update, isReady, scrapperClient);
+        }
+        return new SendMessage(id, "неверная команда!");
     }
 
 }

@@ -1,31 +1,34 @@
-package edu.java.scrapper.jdbc;
+package edu.java.scrapper.jpa;
 
-import edu.java.DTOModels.DTOjdbc.DTOChat;
-import edu.java.repository.impl.jdbc.JdbcChatRepoImpl;
+import edu.java.repository.entity.ChatEntity;
+import edu.java.repository.impl.jpa.JpaChatRepoImpl;
 import edu.java.scrapper.IntegrationTest;
-import java.time.OffsetDateTime;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.OffsetDateTime;
+import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
-public class ChatRepositoryImplTest extends IntegrationTest {
-    @Autowired
-    private JdbcChatRepoImpl chatRepository;
+public class JpaChatRepoTest extends IntegrationTest {
 
-    static DTOChat chat;
+    @Autowired
+    private JpaChatRepoImpl chatRepository;
+
+    static ChatEntity chat;
 
     @BeforeAll
     static void createDto() {
-        chat = new DTOChat(
+        chat = new ChatEntity(
             1L,
             "Alexey",
             OffsetDateTime.parse("2022-01-01T10:30:00+00:00"),
-            "NONE"
+            "NONE",
+            new HashSet<>()
         );
     }
 
@@ -34,8 +37,8 @@ public class ChatRepositoryImplTest extends IntegrationTest {
     @Rollback
     void add() {
         assertEquals(0, chatRepository.findAll().size());
-        chatRepository.add(chat);
-        assertEquals("Alexey", chatRepository.findAll().getFirst().name());
+        chatRepository.saveAndFlush(chat);
+        assertEquals("Alexey", chatRepository.findAll().getFirst().getName());
         assertEquals(1, chatRepository.findAll().size());
     }
 
@@ -43,9 +46,10 @@ public class ChatRepositoryImplTest extends IntegrationTest {
     @Transactional
     @Rollback
     void remove() {
-        chatRepository.add(chat);
+        chatRepository.saveAndFlush(chat);
         assertEquals(1, chatRepository.findAll().size());
-        chatRepository.remove(chat);
+        chatRepository.deleteById(chat.getChatId());
+        chatRepository.flush();
         assertEquals(0, chatRepository.findAll().size());
     }
 
@@ -53,11 +57,10 @@ public class ChatRepositoryImplTest extends IntegrationTest {
     @Transactional
     @Rollback
     void findAll() {
-        chatRepository.add(chat);
+        chatRepository.saveAndFlush(chat);
         assertEquals(1, chatRepository.findAll().size());
-        assertEquals(
-            "[DTOChat[chatId=1, name=Alexey, createdAt=2022-01-01T10:30Z, state=NONE]]",
-            chatRepository.findAll().toString()
+        assertEquals( chat.getChatId(),
+            chatRepository.findAll().getFirst().getChatId()
         );
     }
 }

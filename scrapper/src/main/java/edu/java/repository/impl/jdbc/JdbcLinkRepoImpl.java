@@ -1,4 +1,4 @@
-package edu.java.repository.impl;
+package edu.java.repository.impl.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOLink;
 import edu.java.repository.interfaces.LinkRepo;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 @Repository
-public class LinkRepoImpl implements LinkRepo {
+public class JdbcLinkRepoImpl implements LinkRepo {
 
     @Autowired
     private JdbcClient jdbcClient;

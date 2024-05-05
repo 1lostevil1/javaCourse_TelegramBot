@@ -1,4 +1,4 @@
-package edu.java.repository.impl;
+package edu.java.repository.impl.jdbc;
 
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.repository.interfaces.ChatLinkRepo;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @SuppressWarnings("MagicNumber")
 
-public class ChatLinkRepoImpl implements ChatLinkRepo {
+public class JdbcChatLinkRepoImpl implements ChatLinkRepo {
 
     @Autowired
     private JdbcClient jdbcClient;

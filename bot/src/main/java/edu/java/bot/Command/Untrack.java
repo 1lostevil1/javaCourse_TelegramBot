@@ -2,22 +2,19 @@ package edu.java.bot.Command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.Users.State;
-import edu.java.bot.Users.User;
-import edu.java.bot.Users.Users;
+import edu.java.bot.ScrapperClient.ScrapperClient;
 
 public class Untrack implements Command {
     @Override
-    public SendMessage apply(Update update, Users users) {
-        User user = new User(update.message().chat().username(), update.message().chat().id());
-        if (users.find(user.getId())) {
-            if (users.usersMap.get(user.getId()).isEmpty()) {
-                return new SendMessage(update.message().chat().id(), "список ссылок пуст");
-            }
-            users.usersMap.get(user.getId()).state = State.DEL_LINK;
-            return new SendMessage(update.message().chat().id(), "вставьте ссылку на источник");
+    public SendMessage apply(Update update, boolean isReady, ScrapperClient scrapperClient) {
+        Long id = update.message().chat().id();
+        String url = update.message().text();
+        if (isReady) {
+            scrapperClient.sendState(id, "DEL");
         } else {
-            return new SendMessage(update.message().chat().id(), "вы не зарегистрированы");
+            return new SendMessage(id, "Не пройдена регистрация");
         }
+        return new SendMessage(id, "вставьте ссылку на источник");
+
     }
 }

@@ -15,12 +15,18 @@ public record ApplicationConfig(
     BaseUrl baseUrl,
     @NotNull
     @Bean
-    Scheduler scheduler
+    Scheduler scheduler,
+    @NotNull
+    AccessType databaseAccessType
 ) {
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }
 
     public record BaseUrl(@NotNull String gitHubBaseUrl, @NotNull String stackOverFlowBaseUrl) {
+    }
+
+    public enum AccessType {
+        JDBC, JPA
     }
 }

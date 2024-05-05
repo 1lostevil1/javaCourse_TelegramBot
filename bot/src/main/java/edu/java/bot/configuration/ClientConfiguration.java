@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Configuration
+@Configuration("BotConfig")
 public class ClientConfiguration {
     @Bean
     public ScrapperClient getScrapperClient(@Value("${app.base-url-scrapper}") String baseUrl) {

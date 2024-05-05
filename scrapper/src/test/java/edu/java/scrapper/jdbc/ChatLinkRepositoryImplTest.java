@@ -3,9 +3,9 @@ package edu.java.scrapper.jdbc;
 import edu.java.DTOModels.DTOjdbc.DTOChat;
 import edu.java.DTOModels.DTOjdbc.DTOChatLink;
 import edu.java.DTOModels.DTOjdbc.DTOLink;
-import edu.java.repository.impl.ChatLinkRepoImpl;
-import edu.java.repository.impl.ChatRepoImpl;
-import edu.java.repository.impl.LinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatLinkRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcChatRepoImpl;
+import edu.java.repository.impl.jdbc.JdbcLinkRepoImpl;
 import edu.java.scrapper.IntegrationTest;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
@@ -19,17 +19,18 @@ import static org.junit.Assert.assertEquals;
 public class ChatLinkRepositoryImplTest extends IntegrationTest {
 
     @Autowired
-    private ChatRepoImpl chatRepository;
+    private JdbcChatRepoImpl chatRepository;
     @Autowired
-    private LinkRepoImpl linkRepository;
+    private JdbcLinkRepoImpl linkRepository;
     @Autowired
-    private ChatLinkRepoImpl chatLinkRepository;
+    private JdbcChatLinkRepoImpl chatLinkRepository;
 
     private final OffsetDateTime time = OffsetDateTime.parse("2022-01-01T10:30:00+00:00");
     private final DTOChat chat = new DTOChat(
         1L,
         "Alexey",
-        time
+        time,
+        "NONE"
     );
     private final DTOLink link = new DTOLink(
         1L,
