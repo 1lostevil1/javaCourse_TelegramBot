@@ -1,31 +1,32 @@
 package edu.java.clients;
 
-import edu.java.dto.Question;
-import org.springframework.http.HttpStatus;
+import edu.java.StackOverflow.StackOverflow;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 public class StackOverflowClient {
+
+    @Autowired
+    private Retry retry;
     private final WebClient webClient;
 
     public StackOverflowClient(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Question getQuestion(long ids) {
-        return webClient.get().uri("/questions/{ids}?site=stackoverflow", ids)
+    public StackOverflow getStackOverflow(String id) {
+        return webClient.get().uri("/questions/{ids}?site=stackoverflow", id)
             .retrieve().onStatus(
                 HttpStatusCode::is4xxClientError,
-                error -> Mono.error(new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Link is not valid"
-                ))
-            ).onStatus(
+                error -> Mono.error(new RuntimeException("API not found"))
+            )
+            .onStatus(
                 HttpStatusCode::is5xxServerError,
-                error -> Mono.error(new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"
-                ))
-            ).bodyToMono(Question.class).block();
+                error -> Mono.error(new RuntimeException("Server is not responding"))
+
+            ).bodyToMono(StackOverflow.class).retryWhen(retry).block();
     }
 }

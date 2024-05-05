@@ -1,11 +1,12 @@
 package edu.java.scrapper;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-
+@DirtiesContext
 public class MigrationTest extends IntegrationTest {
     @Test
     public void chatTest() throws SQLException {
@@ -25,7 +26,7 @@ public class MigrationTest extends IntegrationTest {
             String thirdColumn = sqlQuery.executeQuery().getMetaData().getColumnName(3);
             assertThat(firstColumn).isEqualTo("link_id");
             assertThat(secondColumn).isEqualTo("url");
-            assertThat(thirdColumn).isEqualTo("updated_at");
+            assertThat(thirdColumn).isEqualTo("update_at");
         }
     }
 
